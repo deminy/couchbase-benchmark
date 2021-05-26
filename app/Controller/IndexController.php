@@ -8,13 +8,32 @@ use Couchbase\Exception;
 use Crowdstar\OOM\Drivers\Couchbase\StandardDriver;
 use CrowdStar\Reflection\Reflection;
 use Hyperf\Logger\LoggerFactory;
+use Hyperf\Server\ServerFactory;
 use Hyperf\Utils\ApplicationContext;
+use Swoole\Http\Server as SwooleHttpServer;
 
 class IndexController
 {
     public function index(): array
     {
-        return ['The microservice is running.'];
+        /** @var ServerFactory $serverFactory */
+        $serverFactory = ApplicationContext::getContainer()->get(ServerFactory::class);
+        /** @var SwooleHttpServer $server */
+        $server = $serverFactory->getServer()->getServer();
+        $driver = new StandardDriver();
+
+        $stats = [
+            'server'    => $server->stats(),
+            'couchbase' => $driver->info(),
+        ];
+        if (!empty($stats['server']['start_time'])) {
+            $stats['server']['start_time'] = date('Y-m-d H:i:s', $stats['server']['start_time']);
+        }
+        if (isset($stats['couchbase']['vBucketServerMap'])) {
+            unset($stats['couchbase']['vBucketServerMap']);
+        }
+
+        return $stats;
     }
 
     /**

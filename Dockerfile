@@ -14,7 +14,7 @@ COPY ./docker/rootfilesystem/ /
 
 RUN set -ex \
     && apk update \
-    && apk add --no-cache libcouchbase=2.10.6-r0 \
+    && apk add --no-cache jq libcouchbase=2.10.6-r0 \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS libcouchbase-dev=2.10.6-r0 zlib-dev \
     && pecl update-channels \
     && pecl install couchbase-2.6.2 redis-5.3.4 \

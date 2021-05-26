@@ -22,7 +22,7 @@ return [
     ],
     'settings' => [
         Constant::OPTION_ENABLE_COROUTINE    => true,
-        Constant::OPTION_WORKER_NUM          => 3,
+        Constant::OPTION_WORKER_NUM          => swoole_cpu_num(),
         Constant::OPTION_PID_FILE            => BASE_PATH . '/runtime/hyperf.pid',
         Constant::OPTION_OPEN_TCP_NODELAY    => true,
         Constant::OPTION_MAX_COROUTINE       => 100000,
@@ -31,7 +31,7 @@ return [
         Constant::OPTION_SOCKET_BUFFER_SIZE  => 2 * 1024 * 1024,
         Constant::OPTION_BUFFER_OUTPUT_SIZE  => 2 * 1024 * 1024,
 
-        Constant::OPTION_TASK_WORKER_NUM       => max(6, ((swoole_cpu_num() * 2) - 3)),
+        Constant::OPTION_TASK_WORKER_NUM       => swoole_cpu_num(),
         Constant::OPTION_TASK_ENABLE_COROUTINE => false,
     ],
     'callbacks' => [
