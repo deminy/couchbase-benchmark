@@ -1,0 +1,60 @@
+{
+    "name": "deminy/couchbase-benchmark",
+    "description": "To benchmark Couchbase performance in a non-blocking web server.",
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "ext-swoole": ">=4.6.0",
+        "couchbase/php-couchbase": "2.6.2",
+        "crowdstar/exponential-backoff": "~3.0.0",
+        "hyperf/db-connection": "~2.1.0",
+        "hyperf/cache": "~2.1.0",
+        "hyperf/command": "~2.1.0",
+        "hyperf/config": "~2.1.0",
+        "hyperf/constants": "~2.1.0",
+        "hyperf/database": "~2.1.0",
+        "hyperf/di": "~2.1.0",
+        "hyperf/framework": "~2.1.0",
+        "hyperf/guzzle": "~2.1.0",
+        "hyperf/http-server": "~2.1.0",
+        "hyperf/logger": "~2.1.0",
+        "hyperf/memory": "~2.1.0",
+        "hyperf/redis": "~2.1.0",
+        "hyperf/task": "~2.1.0",
+        "hyperf/validation": "~2.1.0",
+        "swoole/ide-helper": "~4.6.0"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "couchbase/php-couchbase",
+                "version": "2.6.2",
+                "dist": {
+                    "url": "https://github.com/couchbase/php-couchbase/archive/v2.6.2.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Crowdstar\\CouchbaseAdapter\\": "contrib/CouchbaseAdapter/",
+            "Crowdstar\\OOM\\": "contrib/OOM/"
+        }
+    },
+    "prefer-stable": true,
+    "config" : {
+        "apcu-autoloader": true,
+        "discard-changes": true,
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "rm -rf runtime/container"
+        ]
+    }
+}

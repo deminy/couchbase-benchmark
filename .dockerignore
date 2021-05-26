@@ -1,0 +1,23 @@
+# Ignore Eclipse/Zend Studio project files
+/.buildpath
+/.project
+/.settings
+
+# Ignore PhpStorm files
+/.idea/
+
+# Ignore NetBeans files
+/nbproject/
+
+# Ignore files under Mac
+.DS_Store
+
+# Ignore folder /runtime
+/runtime/*
+
+# Ignore 3rd party packages
+/vendor/*
+
+# Ignore other files/folders
+/.git/
+/.gitignore
