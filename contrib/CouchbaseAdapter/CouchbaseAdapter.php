@@ -74,7 +74,7 @@ class CouchbaseAdapter
 
         $connectionString = "couchbase://{$this->config['host']}";
         if (!empty($this->config['options'])) {
-            $connectionString .= '?' . http_build_query($this->config['options']);
+            $connectionString .= "?{$this->config['options']}";
         }
 
         // TODO: handle connection failures.

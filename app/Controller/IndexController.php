@@ -172,11 +172,16 @@ class IndexController
         // Total # of Couchbase queries: 24.
         $driver->remove([$key1, $key2, $key3]);
 
-        return $this->getSuccessfulResponse(['OK']);
+        return ['OK'];
     }
 
     protected function counter(StandardDriver $driver, string $key, int $delta = 1)
     {
         return Reflection::callMethod($driver, 'counter', [$key, $delta]);
+    }
+
+    protected function getErrorResponse(string $message): array
+    {
+        return ['error' => $message];
     }
 }

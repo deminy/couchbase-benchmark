@@ -6,4 +6,4 @@ use App\Controller\IndexController;
 use Hyperf\HttpServer\Router\Router;
 
 Router::get('/', [IndexController::class, 'index']);
-Router::get('test-couchbase', [IndexController::class, 'test']);
+Router::get('/test', [IndexController::class, 'test']);

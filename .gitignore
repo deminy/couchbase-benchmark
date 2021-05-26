@@ -12,8 +12,12 @@
 # Ignore files under Mac
 .DS_Store
 
+# Ignore customized .env files
+/.env.*
+
 # Ignore folder /runtime
 /runtime/*
 
 # Ignore 3rd party packages
 /vendor/*
+

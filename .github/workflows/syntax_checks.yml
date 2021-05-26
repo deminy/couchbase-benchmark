@@ -1,0 +1,12 @@
+name: Syntax Checks
+
+on: [ push, workflow_dispatch ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    name: Syntax Checks
+
+    steps:
+      - name: Run Syntax Checks
+        run: docker run --rm -v "$(pwd):/var/www" -w /var/www -i jakzal/phpqa:php7.4 php-cs-fixer fix
