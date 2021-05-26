@@ -1,9 +1,12 @@
-# Commands
+# How to Run a Benchmark
 
 ## Start the Docker Container
 
+In this step, you need to have a customized ".env.*" file added under the root directory of this project, and use it
+when starting the container.
+
 ```bash
-docker run --rm -v $(pwd):/var/www -ti phpswoole/swoole:4.6-php7.4-dev composer install -n --ignore-platform-reqs
+docker run --rm -v $(pwd):/var/www --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "composer install -n"
 
 cp .env .env.local
 # Please modify Couchbase connection information in file ".env.local" before starting the container.
@@ -22,6 +25,9 @@ docker exec -t $(docker ps -qf "name=test-cb") cat .env   # To check Couchbase c
 ```
 
 ## Run Benchmark
+
+We will run two benchmarks in this step. Usually, the second one is more accurate since it has less concurrent HTTP calls
+made.
 
 ```bash
 export CONTAINER_ID=$(docker ps -qf "name=test-cb")
