@@ -7,6 +7,9 @@ namespace App\Controller;
 use Couchbase\Exception;
 use Crowdstar\OOM\Drivers\Couchbase\StandardDriver;
 use CrowdStar\Reflection\Reflection;
+use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpMessage\Stream\SwooleStream;
+use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Server\ServerFactory;
 use Hyperf\Utils\ApplicationContext;
@@ -15,6 +18,12 @@ use Swoole\Http\Server as SwooleHttpServer;
 
 class IndexController
 {
+    /**
+     * @Inject
+     * @var ResponseInterface
+     */
+    protected $response;
+
     public function index(): array
     {
         return ['OK'];
@@ -50,7 +59,7 @@ class IndexController
      * @see \App\Task\CouchbaseTask::counter()
      * @todo Test method \App\Task\CouchbaseTask::getAndLock()
      */
-    public function test(): array
+    public function test(): ResponseInterface
     {
         $logger  = (false && env('VERBOSE_MODE')) ? ApplicationContext::getContainer()->get(LoggerFactory::class)->get('test') : new Logger('test');
         $postfix = uniqid('', true) . '-' . rand() . '-' . bin2hex(random_bytes(10)); // Generate a unique postfix (for benchmark purpose).
@@ -196,7 +205,7 @@ class IndexController
         // Total # of Couchbase queries: 24.
         $driver->remove([$key1, $key2, $key3]);
 
-        return ['OK'];
+        return $this->response;
     }
 
     protected function counter(StandardDriver $driver, string $key, int $delta = 1)
@@ -204,8 +213,8 @@ class IndexController
         return Reflection::callMethod($driver, 'counter', [$key, $delta]);
     }
 
-    protected function getErrorResponse(string $message): array
+    protected function getErrorResponse(string $message): ResponseInterface
     {
-        return ['error' => $message];
+        return $this->response->withStatus(500)->withBody(new SwooleStream($message));
     }
 }
