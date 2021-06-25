@@ -11,7 +11,7 @@ ENV APP_ENV=$APP_ENV \
 
 RUN set -ex \
     && apk update \
-    && apk add --no-cache jq libcouchbase=2.10.6-r0 \
+    && apk add --no-cache apache2-utils jq libcouchbase=2.10.6-r0 \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS libcouchbase-dev=2.10.6-r0 zlib-dev \
     && pecl update-channels \
     && pecl install couchbase-2.6.2 redis-5.3.4 \
@@ -29,4 +29,4 @@ RUN set -ex \
 
 EXPOSE 80
 
-ENTRYPOINT ["php", "./hyperf.php", "start"]
+ENTRYPOINT ["/entrypoint.sh"]

@@ -16,6 +16,22 @@ class IndexController
 {
     public function index(): array
     {
+        return ['OK'];
+    }
+
+    public function shutdown(): array
+    {
+        /** @var ServerFactory $serverFactory */
+        $serverFactory = ApplicationContext::getContainer()->get(ServerFactory::class);
+        /** @var SwooleHttpServer $server */
+        $server = $serverFactory->getServer()->getServer();
+        $server->shutdown();
+
+        return ['DONE'];
+    }
+
+    public function stats(): array
+    {
         /** @var ServerFactory $serverFactory */
         $serverFactory = ApplicationContext::getContainer()->get(ServerFactory::class);
         /** @var SwooleHttpServer $server */

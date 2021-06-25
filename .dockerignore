@@ -22,6 +22,7 @@
 /vendor/*
 
 # Ignore other files/folders
+/*.txt
 /.git/
 /.gitignore
 /docker-compose.yml
