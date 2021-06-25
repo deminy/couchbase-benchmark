@@ -9,16 +9,18 @@ ENV APP_ENV=$APP_ENV \
     SCAN_CACHEABLE=(true) \
     TIMEZONE=${TIMEZONE:-"America/Los_Angeles"}
 
-COPY ./ /var/www/
-COPY ./docker/rootfilesystem/ /
-
 RUN set -ex \
     && apk update \
     && apk add --no-cache jq libcouchbase=2.10.6-r0 \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS libcouchbase-dev=2.10.6-r0 zlib-dev \
     && pecl update-channels \
     && pecl install couchbase-2.6.2 redis-5.3.4 \
-    && docker-php-ext-enable couchbase redis \
+    && docker-php-ext-enable couchbase redis
+
+COPY ./ /var/www/
+COPY ./docker/rootfilesystem/ /
+
+RUN set -ex \
     && composer install --no-dev -nq --no-progress \
     && php ./hyperf.php \
     && apk del .build-deps \
