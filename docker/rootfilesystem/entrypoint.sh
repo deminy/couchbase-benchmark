@@ -25,5 +25,7 @@ curl -sf --output /dev/null http://127.0.0.1/shutdown
 sleep 5 # Give enough time for the server to shutdown properly.
 
 echo
-echo Benchmark is done. Please check the output file for details. Thanks.
+echo "Benchmark is done, and here are the results (You can also check the output file for details):"
+echo
+cat ./output.txt
 echo
