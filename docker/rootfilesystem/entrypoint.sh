@@ -22,3 +22,8 @@ ab -n 500 -c ${NUM_OF_PROCESSES} http://127.0.0.1/test              >> ./output.
 printf "\n\n\n\nBenchmarks done at $(date +'%Y-%m-%d %H:%M:%S').\n" >> ./output.txt
 
 curl -sf --output /dev/null http://127.0.0.1/shutdown
+sleep 5 # Give enough time for the server to shutdown properly.
+
+echo
+echo Benchmark is done. Please check the output file for details. Thanks.
+echo

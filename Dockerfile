@@ -13,6 +13,8 @@ RUN set -ex \
     && apk update \
     && apk add --no-cache apache2-utils jq libcouchbase=2.10.6-r0 \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS libcouchbase-dev=2.10.6-r0 zlib-dev \
+    && ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
+    && echo "${TIMEZONE}" > /etc/timezone \
     && pecl update-channels \
     && pecl install couchbase-2.6.2 redis-5.3.4 \
     && docker-php-ext-enable couchbase redis
