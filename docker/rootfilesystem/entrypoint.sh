@@ -15,11 +15,11 @@ if [[ -z "${NUM_OF_PROCESSES}" ]] ; then
     exit 1
 fi
 
-printf "Benchmarks start at $(date +'%Y-%m-%d %H:%M:%S').\n\n\n\n"  >  ./output.txt
-ab -n 500 -c 100                 http://127.0.0.1/test              >> ./output.txt 2>&1
-printf "\n\n\n\n\n\n\n\n\n\n"                                       >> ./output.txt
-ab -n 500 -c ${NUM_OF_PROCESSES} http://127.0.0.1/test              >> ./output.txt 2>&1
-printf "\n\n\n\nBenchmarks done at $(date +'%Y-%m-%d %H:%M:%S').\n" >> ./output.txt
+printf "Benchmarks start at $(php -r 'echo date("Y-m-d H:i:s");').\n\n\n\n"  >  ./output.txt
+ab -n 500 -c 100                 http://127.0.0.1/test                       >> ./output.txt 2>&1
+printf "\n\n\n\n\n\n\n\n\n\n"                                                >> ./output.txt
+ab -n 500 -c ${NUM_OF_PROCESSES} http://127.0.0.1/test                       >> ./output.txt 2>&1
+printf "\n\n\n\nBenchmarks done at $(php -r 'echo date("Y-m-d H:i:s");').\n" >> ./output.txt
 
 curl -sf --output /dev/null http://127.0.0.1/shutdown
 sleep 5 # Give enough time for the server to shutdown properly.
