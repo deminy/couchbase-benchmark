@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
-use App\Task\CouchbaseTask;
+use App\Service\CouchbaseProxyInterface;
+use Crowdstar\CouchbaseAdapter\CouchbaseAdapter;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\BeforeWorkerStart;
+use Hyperf\Utils\ApplicationContext;
 use Swoole\Coroutine;
 
-class CouchbaseListener implements ListenerInterface
+class BeforeWorkerStartListener implements ListenerInterface
 {
     public function listen(): array
     {
@@ -24,7 +26,9 @@ class CouchbaseListener implements ListenerInterface
     public function process(object $event)
     {
         if (Coroutine::getPcid() === false) { // Task worker
-            (new CouchbaseTask())->info();
+            /** @var CouchbaseAdapter $couchbaseAdapter */
+            $couchbaseAdapter = ApplicationContext::getContainer()->get(CouchbaseProxyInterface::class);
+            $couchbaseAdapter->getActiveConnection();
         }
     }
 }
