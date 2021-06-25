@@ -10,6 +10,7 @@ use CrowdStar\Reflection\Reflection;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Server\ServerFactory;
 use Hyperf\Utils\ApplicationContext;
+use Monolog\Logger;
 use Swoole\Http\Server as SwooleHttpServer;
 
 class IndexController
@@ -63,7 +64,7 @@ class IndexController
      */
     public function test(): array
     {
-        $logger  = ApplicationContext::getContainer()->get(LoggerFactory::class)->get('test');
+        $logger  = env('VERBOSE_MODE') ? ApplicationContext::getContainer()->get(LoggerFactory::class)->get('test') : new Logger('test');
         $postfix = uniqid('', true) . '-' . rand() . '-' . rand(); // Generate a unique postfix (for benchmark purpose).
 
         // Couchbase method replace() is tested using $key2 and $key3.

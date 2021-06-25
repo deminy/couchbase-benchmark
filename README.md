@@ -46,6 +46,7 @@ touch ./output.txt
 docker run --rm -d --name couchbase -e CB_ADMIN=username -e CB_ADMIN_PASSWORD=password -e CB_BUCKET=test -t deminy/couchbase
 docker run --rm \
     -e COUCHBASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' couchbase) \
+    -e VERBOSE_MODE=on \
     -v $(pwd)/output.txt:/var/www/output.txt \
     -t deminy/couchbase-benchmark
 docker stop couchbase
