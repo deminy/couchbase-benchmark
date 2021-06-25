@@ -72,9 +72,15 @@ class CouchbaseAdapter
 
         $this->close();
 
-        $connectionString = "couchbase://{$this->config['host']}";
+        if (env('VERBOSE_MODE')) {
+            ini_set('couchbase.log_level', 'WARN');
+            $connectionString = "couchbase://{$this->config['host']}?detailed_errcodes=1";
+        } else {
+            ini_set('couchbase.log_level', 'FATAL');
+            $connectionString = "couchbase://{$this->config['host']}?detailed_errcodes=0";
+        }
         if (!empty($this->config['options'])) {
-            $connectionString .= "?{$this->config['options']}";
+            $connectionString .= "&{$this->config['options']}";
         }
 
         // TODO: handle connection failures.

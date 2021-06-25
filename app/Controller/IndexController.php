@@ -64,7 +64,7 @@ class IndexController
      */
     public function test(): array
     {
-        $logger  = env('VERBOSE_MODE') ? ApplicationContext::getContainer()->get(LoggerFactory::class)->get('test') : new Logger('test');
+        $logger  = (false && env('VERBOSE_MODE')) ? ApplicationContext::getContainer()->get(LoggerFactory::class)->get('test') : new Logger('test');
         $postfix = uniqid('', true) . '-' . rand() . '-' . bin2hex(random_bytes(10)); // Generate a unique postfix (for benchmark purpose).
 
         // Couchbase method replace() is tested using $key2 and $key3.
