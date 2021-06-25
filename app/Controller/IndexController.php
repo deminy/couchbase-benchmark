@@ -65,7 +65,7 @@ class IndexController
     public function test(): array
     {
         $logger  = env('VERBOSE_MODE') ? ApplicationContext::getContainer()->get(LoggerFactory::class)->get('test') : new Logger('test');
-        $postfix = uniqid('', true) . '-' . rand() . '-' . rand(); // Generate a unique postfix (for benchmark purpose).
+        $postfix = uniqid('', true) . '-' . rand() . '-' . bin2hex(random_bytes(10)); // Generate a unique postfix (for benchmark purpose).
 
         // Couchbase method replace() is tested using $key2 and $key3.
         $key1 = "test-key1{$postfix}"; // Used to test method insert(), get(), and remove().
