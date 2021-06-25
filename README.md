@@ -1,5 +1,13 @@
 This repository is to run benchmark with Couchbase servers.
 
+# How Is the Benchmark Performed
+
+* The benchmarks are done using the Apache ab tool.
+* The web server creates a few persistent Couchbase connections in advance. The # of persistent Coucbhase connections is the same as the # of CPU core.
+* The 1st benchmark makes 500 HTTP requests in total, with 100 concurrent threads.
+* The 2nd benchmark makes 500 HTTP requests in total. The # of concurrent threads is the same as the # of persistent Coucbhase connections.
+* Each HTTP request performs 24 Couchbase operations, including _get()_, _insert()_, _upsert()_, _replace()_, _counter()_, and _remove()_.
+
 # How to Run a Benchmark
 
 First, please manually create an output file. Here we use a text file _./output.txt_ to store the output.
