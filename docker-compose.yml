@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  app:
+    image: deminy/couchbase-benchmark
+    links:
+      - couchbase
+    ports:
+      - 80:80
+    entrypoint: ["php", "./hyperf.php", "start"]
+  couchbase:
+    image: deminy/couchbase
+    environment:
+      CB_ADMIN: username
+      CB_ADMIN_PASSWORD: password
+      CB_BUCKET: test
+    ports:
+      - 8091
