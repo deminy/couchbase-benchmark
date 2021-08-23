@@ -1,4 +1,4 @@
-FROM phpswoole/swoole:4.6-php7.4-alpine
+FROM phpswoole/swoole:4.7-php7.4-alpine
 
 ARG APP_ENV=local
 ARG APP_NAME=demo
@@ -8,6 +8,8 @@ ENV APP_ENV=$APP_ENV \
     SCAN_CACHEABLE=(true)
 
 RUN set -ex \
+    && docker-php-ext-configure pcntl --enable-pcntl \
+    && docker-php-ext-install pcntl \
     && apk update \
     && apk add --no-cache apache2-utils jq libcouchbase=2.10.6-r0 \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS libcouchbase-dev=2.10.6-r0 zlib-dev \

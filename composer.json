@@ -9,13 +9,13 @@
         "couchbase/php-couchbase": "2.6.2",
         "crowdstar/exponential-backoff": "~3.0.0",
         "crowdstar/reflection": "~1.0.0",
-        "hyperf/config": "~2.1.0",
-        "hyperf/di": "~2.1.0",
-        "hyperf/framework": "~2.1.0",
-        "hyperf/http-server": "~2.1.0",
-        "hyperf/logger": "~2.1.0",
-        "hyperf/task": "~2.1.0",
-        "swoole/ide-helper": "~4.6.0"
+        "hyperf/config": "~2.2.0",
+        "hyperf/di": "~2.2.0",
+        "hyperf/framework": "~2.2.0",
+        "hyperf/http-server": "~2.2.0",
+        "hyperf/logger": "~2.2.0",
+        "hyperf/task": "~2.2.0",
+        "swoole/ide-helper": "~4.7.0"
     },
     "repositories": [
         {
