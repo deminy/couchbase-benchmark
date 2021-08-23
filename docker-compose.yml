@@ -3,11 +3,15 @@ version: '3.8'
 services:
   app:
     image: deminy/couchbase-benchmark
+    environment:
+      VERBOSE_LOGGING: "true"
     links:
       - couchbase
     ports:
       - 80:80
     entrypoint: ["php", "./hyperf.php", "start"]
+    volumes:
+      - ./:/var/www
   couchbase:
     image: deminy/couchbase
     environment:

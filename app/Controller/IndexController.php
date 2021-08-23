@@ -7,6 +7,7 @@ namespace App\Controller;
 use Couchbase\Exception;
 use Crowdstar\OOM\Drivers\Couchbase\StandardDriver;
 use CrowdStar\Reflection\Reflection;
+use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\HttpServer\Contract\ResponseInterface;
@@ -61,7 +62,11 @@ class IndexController
      */
     public function test(): ResponseInterface
     {
-        $logger  = (false && env('VERBOSE_MODE')) ? ApplicationContext::getContainer()->get(LoggerFactory::class)->get('test') : new Logger('test');
+        if (ApplicationContext::getContainer()->get(ConfigInterface::class)->get('couchbase')['default']['verbose_logging']) {
+            $logger = ApplicationContext::getContainer()->get(LoggerFactory::class)->get('test');
+        } else {
+            $logger = new Logger('test');
+        }
         $postfix = uniqid('', true) . '-' . rand() . '-' . bin2hex(random_bytes(10)); // Generate a unique postfix (for benchmark purpose).
 
         // Couchbase method replace() is tested using $key2 and $key3.

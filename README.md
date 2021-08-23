@@ -21,7 +21,7 @@ docker run --rm \
     -ti deminy/couchbase-benchmark
 ```
 
-You need to update Docker enviornment variable _COUCHBASE_HOST_, _COUCHBASE_USER_, _COUCHBASE_PASS_, and
+You need to update Docker environment variable _COUCHBASE_HOST_, _COUCHBASE_USER_, _COUCHBASE_PASS_, and
 _COUCHBASE_BUCKET_ first before running above command.
 
 # Commands for Local Development
@@ -45,7 +45,6 @@ benchmark script, like following:
 docker run --rm -d --name couchbase -e CB_ADMIN=username -e CB_ADMIN_PASSWORD=password -e CB_BUCKET=test -t deminy/couchbase
 docker run --rm \
     -e COUCHBASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' couchbase) \
-    -e VERBOSE_MODE=on \
     -ti deminy/couchbase-benchmark
 docker stop couchbase
 ```

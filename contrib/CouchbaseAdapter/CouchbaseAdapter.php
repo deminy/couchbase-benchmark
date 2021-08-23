@@ -72,7 +72,7 @@ class CouchbaseAdapter
 
         $this->close();
 
-        if (env('VERBOSE_MODE')) {
+        if ($this->config['verbose_logging']) {
             ini_set('couchbase.log_level', 'WARN');
             $connectionString = "couchbase://{$this->config['host']}?detailed_errcodes=1";
         } else {
