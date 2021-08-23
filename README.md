@@ -24,6 +24,29 @@ docker run --rm \
 You need to update Docker environment variable _COUCHBASE_HOST_, _COUCHBASE_USER_, _COUCHBASE_PASS_, and
 _COUCHBASE_BUCKET_ first before running above command.
 
+Assuming that we have a Couchbase certificate file _./couchbase.pem_ and we want to use it to run benchmarks:
+
+```bash
+docker run --rm \
+    -v "$(pwd)/couchbase.pem:/couchbase.pem" \
+    -e COUCHBASE_HOST= \
+    -e COUCHBASE_USER= \
+    -e COUCHBASE_PASS= \
+    -e COUCHBASE_BUCKET= \
+    -e COUCHBASE_OPTIONS="truststorepath=/couchbase.pem" \
+    -ti deminy/couchbase-benchmark
+
+# or, if we don't want to validate the SSL certificate while benchmarking. This should be used for debugging purposes only.
+docker run --rm \
+    -v "$(pwd)/couchbase.pem:/couchbase.pem" \
+    -e COUCHBASE_HOST= \
+    -e COUCHBASE_USER= \
+    -e COUCHBASE_PASS= \
+    -e COUCHBASE_BUCKET= \
+    -e COUCHBASE_OPTIONS="ssl=no_verify&truststorepath=/couchbase.pem" \
+    -ti deminy/couchbase-benchmark
+```
+
 # Commands for Local Development
 
 ```bash
