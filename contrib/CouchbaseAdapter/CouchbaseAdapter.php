@@ -6,7 +6,7 @@ namespace Crowdstar\CouchbaseAdapter;
 
 use Couchbase\Bucket;
 use Couchbase\Cluster;
-use Couchbase\Exception;
+use CouchbaseException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -50,7 +50,7 @@ class CouchbaseAdapter
     }
 
     /**
-     * @throws Exception
+     * @throws CouchbaseException
      */
     public function getActiveConnection(): self
     {
@@ -64,7 +64,7 @@ class CouchbaseAdapter
     /**
      * @see https://github.com/couchbase/php-couchbase/blob/v2.6.3/api/couchbase.php#L47  couchbase.pool.max_idle_time_sec
      * @see https://github.com/couchbase/php-couchbase/blob/v2.6.3/api/couchbase.php#L562 \Couchbase\Bucket::$htconfigIdleTimeout
-     * @throws Exception
+     * @throws CouchbaseException
      */
     public function reconnect(): bool
     {
@@ -72,15 +72,28 @@ class CouchbaseAdapter
 
         $this->close();
 
+        $protocol = 'couchbase';
+        if (!empty($this->config['options'])) {
+            parse_str($this->config['options'], $options);
+            if (!empty($options['truststorepath'])) {
+                if (!is_readable($options['truststorepath'])) {
+                    throw new Exception("Unable to access the certificate file \"{$options['truststorepath']}\" for connecting to Couchbase.");
+                }
+                if (!empty($options['ssl']) && ($options['ssl'] === 'no_verify')) {
+                    $this->logger->warning('Certificate verification for SSL is disabled.');
+                }
+                $protocol = 'couchbases';
+            }
+        }
         if ($this->config['verbose_logging']) {
             ini_set('couchbase.log_level', 'WARN');
-            $connectionString = "couchbase://{$this->config['host']}?detailed_errcodes=1";
+            $connectionString = "{$protocol}://{$this->config['host']}?detailed_errcodes=1";
         } else {
             ini_set('couchbase.log_level', 'FATAL');
-            $connectionString = "couchbase://{$this->config['host']}?detailed_errcodes=0";
+            $connectionString = "{$protocol}://{$this->config['host']}?detailed_errcodes=0";
         }
-        if (!empty($this->config['options'])) {
-            $connectionString .= "&{$this->config['options']}";
+        if (!empty($options)) {
+            $connectionString .= '&' . http_build_query($options);
         }
 
         // TODO: handle connection failures.
