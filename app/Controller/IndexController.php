@@ -174,6 +174,7 @@ class IndexController
         // Total # of Couchbase queries: 17.
         $driver->remove($key1); // FAIL; non-existing record
 
+        // This is to test method replace().
         $logger->debug('6-1. Replace the 2nd key (an existing key).');
         // Total # of Couchbase queries: 18.
         if ($driver->get($key2) !== $key2) { // To make sure $key2 contains an expected value.
