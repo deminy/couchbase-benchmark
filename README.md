@@ -51,7 +51,7 @@ docker run --rm \
 
 ```bash
 # Coding style fixes.
-docker run --rm -v "$(pwd):/var/www" -w /var/www -i jakzal/phpqa:php7.4 php-cs-fixer fix
+docker run --rm -v "$(pwd):/var/www" -w /var/www -i jakzal/phpqa:php8.1 php-cs-fixer fix
 
 # To build the Docker image.
 docker build -t deminy/couchbase-benchmark .

@@ -78,7 +78,7 @@ abstract class AbstractDriver extends BaseDriver
     /**
      * @todo move it to class DefaultDriver?
      */
-    public function findBy(string $schema, string $key, string $value, int $offset = 0, $limit = self::DEFAULT_LENGTH): array
+    public function findBy(string $schema, string $key, string $value, int $offset = 0, ?int $limit = self::DEFAULT_LENGTH): array
     {
         // single value lookup
         if ($key === 'id') {
@@ -135,7 +135,7 @@ abstract class AbstractDriver extends BaseDriver
     /**
      * @throws \CouchbaseException
      */
-    public function findByDoubleUniqueAll(string $schema, array $fields, $field1Value, int $offset = 0, $limit = null): array
+    public function findByDoubleUniqueAll(string $schema, array $fields, $field1Value, int $offset = 0, int $limit = null): array
     {
         $getKeys = function () use ($schema, $fields, $field1Value, $offset, $limit) {
             $keys  = [];
@@ -743,7 +743,7 @@ abstract class AbstractDriver extends BaseDriver
         return true;
     }
 
-    final private function addIndexes(AbstractEntity $entity, string $schema, string $field = null): self
+    private function addIndexes(AbstractEntity $entity, string $schema, string $field = null): self
     {
         $fields = $field ? [$field] : $entity::INDEXED_FIELDS;
         foreach ($fields as $field) {
@@ -753,7 +753,7 @@ abstract class AbstractDriver extends BaseDriver
         return $this;
     }
 
-    final private function addUniqueIndexes(AbstractEntity $entity, string $schema, string $field = null): self
+    private function addUniqueIndexes(AbstractEntity $entity, string $schema, string $field = null): self
     {
         $fields = $field ? [$field] : $entity::UNIQUE_FIELDS;
         foreach ($fields as $field) {
@@ -766,7 +766,7 @@ abstract class AbstractDriver extends BaseDriver
     /**
      * @todo allow to remove an array of index.
      */
-    final private function removeUniqueIndex(string $schema, string $field, string $value, string $id): self
+    private function removeUniqueIndex(string $schema, string $field, string $value, string $id): self
     {
         $this->getUniqueIndex($schema, $field, $value)->remove($id);
 
@@ -778,7 +778,7 @@ abstract class AbstractDriver extends BaseDriver
      * @return $this
      * @todo allow to remove an array of index.
      */
-    final private function removeUniqueIndexesFromObject($obj, string $schema, string $entityClass): self
+    private function removeUniqueIndexesFromObject($obj, string $schema, string $entityClass): self
     {
         foreach ($entityClass::UNIQUE_FIELDS as $field) {
             $this->removeUniqueIndex($schema, $field, $obj->{$field}, $obj->id);
@@ -819,7 +819,7 @@ abstract class AbstractDriver extends BaseDriver
         return $alteredFields;
     }
 
-    final private function updateIndexes(string $schema, AbstractEntity $newEntity, AbstractEntity $oldEntity): bool
+    private function updateIndexes(string $schema, AbstractEntity $newEntity, AbstractEntity $oldEntity): bool
     {
         foreach ($newEntity::INDEXED_FIELDS as $field) {
             if (empty($oldEntity->{$field})) {

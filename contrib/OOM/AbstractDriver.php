@@ -14,7 +14,6 @@ abstract class AbstractDriver
 
     /**
      * @see AbstractDriver::findBy()
-     * @see AbstractModel::findBy()
      * @see array_slice()
      */
     public const DEFAULT_LENGTH = null;
@@ -46,7 +45,7 @@ abstract class AbstractDriver
      * @param $limit int Max number of results to return
      * @param mixed $value
      */
-    abstract public function findBy(string $schema, string $key, string $value, int $offset = 0, int $limit = self::DEFAULT_LENGTH): array;
+    abstract public function findBy(string $schema, string $key, string $value, int $offset = 0, ?int $limit = self::DEFAULT_LENGTH): array;
 
     abstract public function findByIds(string $schema, string ...$ids): array;
 
