@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Crowdstar\OOM\Drivers\Couchbase\Indexes;
 
 use Crowdstar\OOM\Drivers\Couchbase\AbstractDriver;
-use stdClass;
 
 class Index extends AbstractIndex
 {
@@ -18,7 +17,6 @@ class Index extends AbstractIndex
     }
 
     /**
-     * {@inheritDoc}
      * @throws CouchbaseException
      * @SuppressWarnings(PHPMD.ShortVariable)
      * @todo batch adding.
@@ -40,7 +38,7 @@ class Index extends AbstractIndex
 
     /**
      * @todo batch deletion.
-     * {@inheritDoc}
+     *
      * @throws CouchbaseException
      * @SuppressWarnings(PHPMD.ShortVariable)
      */
@@ -72,7 +70,7 @@ class Index extends AbstractIndex
         return empty($this->ids);
     }
 
-    protected function dbObject(): stdClass
+    protected function dbObject(): \stdClass
     {
         return (object) ['ids' => $this->ids];
     }

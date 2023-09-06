@@ -6,7 +6,6 @@ namespace Crowdstar\CouchbaseAdapter;
 
 use Couchbase\Bucket;
 use Couchbase\Cluster;
-use CouchbaseException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -50,7 +49,7 @@ class CouchbaseAdapter
     }
 
     /**
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      */
     public function getActiveConnection(): self
     {
@@ -64,7 +63,7 @@ class CouchbaseAdapter
     /**
      * @see https://github.com/couchbase/php-couchbase/blob/v2.6.3/api/couchbase.php#L47  couchbase.pool.max_idle_time_sec
      * @see https://github.com/couchbase/php-couchbase/blob/v2.6.3/api/couchbase.php#L562 \Couchbase\Bucket::$htconfigIdleTimeout
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      */
     public function reconnect(): bool
     {

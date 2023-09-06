@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Crowdstar\OOM\Drivers\Couchbase;
 
-use CouchbaseException;
 use CrowdStar\Backoff\ExponentialBackoff;
 use Crowdstar\OOM\AbstractDriver as BaseDriver;
 use Crowdstar\OOM\AbstractEntity;
@@ -16,7 +15,6 @@ use Crowdstar\OOM\Drivers\Couchbase\Traits\CouchbaseCallsTrait;
 use Crowdstar\OOM\Entities\AutoIncrementInterface;
 use Crowdstar\OOM\Exception;
 use Psr\Log\LoggerInterface;
-use stdClass;
 
 abstract class AbstractDriver extends BaseDriver
 {
@@ -43,9 +41,7 @@ abstract class AbstractDriver extends BaseDriver
     ];
 
     /**
-     * {@inheritDoc}
-     *
-     * @return stdClass[]
+     * @return \stdClass[]
      * @todo How to deal with non-existing records?
      */
     public function chunk(string $schema, int $start = self::DEFAULT_START, int $stop = self::DEFAULT_STOP): array
@@ -67,10 +63,7 @@ abstract class AbstractDriver extends BaseDriver
         return $data;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function find(string $schema, string $value, string $field, bool $lock = false): ?stdClass
+    public function find(string $schema, string $value, string $field, bool $lock = false): ?\stdClass
     {
         if ($field === 'id') {
             $id = $value;
@@ -83,8 +76,6 @@ abstract class AbstractDriver extends BaseDriver
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @todo move it to class DefaultDriver?
      */
     public function findBy(string $schema, string $key, string $value, int $offset = 0, $limit = self::DEFAULT_LENGTH): array
@@ -121,11 +112,8 @@ abstract class AbstractDriver extends BaseDriver
     }
 
     /**
-     * @param mixed $fields
-     * @param mixed $field1Value
-     * @param mixed $field2Values
-     * @throws CouchbaseException
      * @return array
+     * @throws \CouchbaseException
      */
     public function findByDoubleUnique(string $schema, $fields, $field1Value, $field2Values)
     {
@@ -145,9 +133,7 @@ abstract class AbstractDriver extends BaseDriver
     }
 
     /**
-     * @param mixed $field1Value
-     * @param mixed $limit
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      */
     public function findByDoubleUniqueAll(string $schema, array $fields, $field1Value, int $offset = 0, $limit = null): array
     {
@@ -167,8 +153,7 @@ abstract class AbstractDriver extends BaseDriver
     }
 
     /**
-     * @param $field1Value
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      */
     public function getDoubleIndexContents(string $schema, array $fields, $field1Value): object
     {
@@ -177,7 +162,7 @@ abstract class AbstractDriver extends BaseDriver
 
     /**
      * @param string[] $keys
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      */
     public function findByGeneral(array $keys): array
     {
@@ -195,7 +180,7 @@ abstract class AbstractDriver extends BaseDriver
      * returns raw key/object information
      *
      * @todo share code with other object retrieval, avoided for now to prevent regression
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      */
     public function findByKeyedRaw(string $schema, string $key, string $value, int $offset = 0, int $limit = null): array
     {
@@ -220,8 +205,7 @@ abstract class AbstractDriver extends BaseDriver
     }
 
     /**
-     * @param mixed $field1Value
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      */
     public function findAllByDoubleUniqueKeyedRaw(string $schema, array $fields, $field1Value): array
     {
@@ -242,7 +226,7 @@ abstract class AbstractDriver extends BaseDriver
 
     /**
      * @param callable $getKeys
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      */
     public function findByKeyedRawGeneral($getKeys): array
     {
@@ -267,7 +251,7 @@ abstract class AbstractDriver extends BaseDriver
                     }
                 }
                 break;
-            } catch (CouchbaseException $e) {
+            } catch (\CouchbaseException $e) {
                 if ($e->getCode() === COUCHBASE_KEY_ENOENT) {
                     return [];
                 }
@@ -284,9 +268,6 @@ abstract class AbstractDriver extends BaseDriver
         return $ret;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function chunkBy(string $schema, string $key, $value, int $size, $callback): void
     {
         $getIds = function () use ($schema, $key, $value) {
@@ -301,10 +282,6 @@ abstract class AbstractDriver extends BaseDriver
         $this->chunkByGeneral($schema, $size, $callback, $getIds);
     }
 
-    /**
-     * @param mixed $field1Value
-     * @param mixed $callback
-     */
     public function chunkByDoubleUnique(string $schema, array $fields, $field1Value, int $size, $callback): void
     {
         $getIds = function () use ($schema, $fields, $field1Value) {
@@ -328,7 +305,7 @@ abstract class AbstractDriver extends BaseDriver
             try {
                 $ids = $getIds();
                 break;
-            } catch (CouchbaseException $e) {
+            } catch (\CouchbaseException $e) {
                 if ($e->getCode() === COUCHBASE_KEY_ENOENT) {
                     return;
                 }
@@ -372,7 +349,7 @@ abstract class AbstractDriver extends BaseDriver
                         // were functions like array_unique(), sort(), etc used on the data fetched.
                         $values = $this->get($keys);
                         break;
-                    } catch (CouchbaseException $e) {
+                    } catch (\CouchbaseException $e) {
                         if ($e->getCode() === COUCHBASE_KEY_ENOENT) {
                             return;
                         }
@@ -408,7 +385,7 @@ abstract class AbstractDriver extends BaseDriver
      *
      * {@inheritdoc}
      */
-    public function flush(LoggerInterface $logger, string $schema, string $entityClass, ?int $counter = null): self
+    public function flush(LoggerInterface $logger, string $schema, string $entityClass, int $counter = null): self
     {
         $stop    = static::DEFAULT_STOP;
         $counter = isset($counter) ? $counter : $this->count($schema);
@@ -431,9 +408,8 @@ abstract class AbstractDriver extends BaseDriver
      *
      * TODO share code with other index retrieval, avoided for now to prevent regression
      *
-     * @param $value
-     * @throws CouchbaseException
      * @return array
+     * @throws \CouchbaseException
      */
     public function getRawIndex(string $schema, string $key, $value)
     {
@@ -443,8 +419,8 @@ abstract class AbstractDriver extends BaseDriver
 
     /**
      * @param object $data
-     * @throws CouchbaseException
      * @return array
+     * @throws \CouchbaseException
      */
     public function getRawDoubleUniqueIndex(string $schema, array $keys, $data)
     {
@@ -454,8 +430,8 @@ abstract class AbstractDriver extends BaseDriver
 
     /**
      * @param string $indexKey
-     * @throws CouchbaseException
      * @return array
+     * @throws \CouchbaseException
      */
     public function getRawIndexGeneral($indexKey)
     {
@@ -466,7 +442,7 @@ abstract class AbstractDriver extends BaseDriver
             try {
                 $data = $this->get($indexKey);
                 break;
-            } catch (CouchbaseException $e) {
+            } catch (\CouchbaseException $e) {
                 if ($e->getCode() === COUCHBASE_KEY_ENOENT) {
                     break;
                 }
@@ -494,7 +470,7 @@ abstract class AbstractDriver extends BaseDriver
      */
     final public function removeFromIndex(string $schema, string $field, string $value, string $id): bool
     {
-        return ($this->getIndex($schema, $field, $value))->remove($id);
+        return $this->getIndex($schema, $field, $value)->remove($id);
     }
 
     /**
@@ -502,9 +478,8 @@ abstract class AbstractDriver extends BaseDriver
      *
      * @param string[] $keys
      * @param object $data
-     * @param mixed $id
-     * @throws CouchbaseException
      * @return bool
+     * @throws \CouchbaseException
      * @SuppressWarnings(PHPMD.ShortVariable)
      */
     final public function removeFromDoubleUniqueIndex(string $schema, array $keys, $data, $id)
@@ -526,9 +501,8 @@ abstract class AbstractDriver extends BaseDriver
 
     /**
      * @param array $keys
-     * @param mixed $field1Value
      * @param array $field2ValuesToIds
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      */
     final public function addIdsToDoubleUniqueIndex(string $schema, $keys, $field1Value, $field2ValuesToIds)
     {
@@ -552,7 +526,7 @@ abstract class AbstractDriver extends BaseDriver
         $this->insert($this->getEntityKey($schema, $entity->id), $entity);
         $this->addIndexes($entity, $schema);
         $this->addUniqueIndexes($entity, $schema);
-        //TODO: handle object fields.
+        // TODO: handle object fields.
 
         return $entity;
     }
@@ -581,7 +555,7 @@ abstract class AbstractDriver extends BaseDriver
         return true;
     }
 
-    public function delete(string $schema, string $entityClass, stdClass $data): bool
+    public function delete(string $schema, string $entityClass, \stdClass $data): bool
     {
         if (empty($data) || empty($data->id)) {
             return false;
@@ -589,16 +563,16 @@ abstract class AbstractDriver extends BaseDriver
 
         $id = $data->id;
 
-        $this->removeUniqueIndexesFromObject($data, $schema, $entityClass); //TODO: batch removing.
+        $this->removeUniqueIndexesFromObject($data, $schema, $entityClass); // TODO: batch removing.
 
         /** @var AbstractEntity $entityClass */
         foreach ($entityClass::INDEXED_FIELDS as $field) {
             if (!empty($data->{$field})) {
-                $this->removeFromIndex($schema, $field, $data->{$field}, $data->id); //TODO: batch removing.
+                $this->removeFromIndex($schema, $field, $data->{$field}, $data->id); // TODO: batch removing.
             }
         }
 
-        //TODO: remove indexes.
+        // TODO: remove indexes.
         /*
         foreach ($indexFields['doubleUnique'] as $doubleUniqueIndexedFields) {
             $this->removeFromDoubleUniqueIndex($schema, $doubleUniqueIndexedFields, $data, $id);
@@ -614,17 +588,11 @@ abstract class AbstractDriver extends BaseDriver
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function count(string $schema): int
     {
         return $this->get($this->getCounterKey($schema)) ?: 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function countByIndex(string $schema, string $field, string $value): int
     {
         if ($field === 'id') {
@@ -636,7 +604,6 @@ abstract class AbstractDriver extends BaseDriver
 
     /**
      * @param array $fields
-     * @param mixed $field1Value
      * @todo Not yet implemented.
      */
     public function countByDoubleUnique(string $schema, $fields, $field1Value): int
@@ -661,9 +628,6 @@ abstract class AbstractDriver extends BaseDriver
         return $entity;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     final public static function getReservedSchemaNames(): array
     {
         return self::RESERVED_SCHEMA_NAMES;
@@ -683,13 +647,13 @@ abstract class AbstractDriver extends BaseDriver
      * @see AbstractDriver::find()
      * @todo move to last.
      */
-    final protected function findByKey(string $key, bool $lock = false): ?stdClass
+    final protected function findByKey(string $key, bool $lock = false): ?\stdClass
     {
         return $lock ? $this->getAndLock($key, self::DEFAULT_LOCK_TIME) : $this->get($key);
     }
 
     /**
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      * @todo move to class StandardDriver??
      * @todo merge with method getUniqueIndex()
      */
@@ -698,18 +662,18 @@ abstract class AbstractDriver extends BaseDriver
         $indexKey = $this->getIndexKey($schema, $key, $value);
         try {
             $data = $this->get($indexKey, [], FailNotFoundCondition::class);
-        } catch (CouchbaseException $e) {
+        } catch (\CouchbaseException $e) {
             // TODO: how about other exceptions???
             if ($e->getCode() == COUCHBASE_KEY_ENOENT) {
                 return new Index($this, $indexKey);
             }
         }
 
-        return new Index($this, $indexKey, ($data ? (array) $data->ids : []));
+        return new Index($this, $indexKey, $data ? (array) $data->ids : []);
     }
 
     /**
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      * @todo move to class StandardDriver??
      * @todo merge with method getIndex()
      */
@@ -718,19 +682,19 @@ abstract class AbstractDriver extends BaseDriver
         $indexKey = $this->getIndexKey($schema, $key, $value);
         try {
             $data = $this->get($indexKey, [], FailNotFoundCondition::class);
-        } catch (CouchbaseException $e) {
+        } catch (\CouchbaseException $e) {
             // TODO: how about other exceptions???
             if ($e->getCode() == COUCHBASE_KEY_ENOENT) {
                 return new Unique($this, $indexKey);
             }
         }
 
-        return new Unique($this, $indexKey, ($data ?? null));
+        return new Unique($this, $indexKey, $data ?? null);
     }
 
     /**
      * @param object $data
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      */
     protected function getDoubleUniqueIndex(string $schema, array $keys, $data): AbstractDoubleUniqueIndex
     {
@@ -740,28 +704,26 @@ abstract class AbstractDriver extends BaseDriver
     }
 
     /**
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      * @todo rename it.
      */
     protected function getIndexGeneral(string $indexKey): AbstractIndex
     {
         try {
             $data = $this->get($indexKey, [], FailNotFoundCondition::class);
-        } catch (CouchbaseException $e) {
+        } catch (\CouchbaseException $e) {
             // TODO: how about other exceptions???
             if ($e->getCode() == COUCHBASE_KEY_ENOENT) {
                 return new Index($this, $indexKey);
             }
         }
 
-        return new Index($this, $indexKey, ($data ? (array) $data->ids : []));
+        return new Index($this, $indexKey, $data ? (array) $data->ids : []);
     }
 
     /**
      * @param string[] $keys
-     * @param mixed $data
-     * @param $id
-     * @throws CouchbaseException
+     * @throws \CouchbaseException
      */
     final protected function addToDoubleUniqueIndex(string $schema, array $keys, $data, $id): bool
     {
@@ -812,7 +774,7 @@ abstract class AbstractDriver extends BaseDriver
     }
 
     /**
-     * @param AbstractEntity|stdClass $obj
+     * @param AbstractEntity|\stdClass $obj
      * @return $this
      * @todo allow to remove an array of index.
      */

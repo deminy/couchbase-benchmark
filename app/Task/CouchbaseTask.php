@@ -50,7 +50,6 @@ class CouchbaseTask
     /**
      * @Task(timeout=-1)
      * @param array|string $ids
-     * @param mixed $value
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
@@ -67,7 +66,6 @@ class CouchbaseTask
     /**
      * @Task(timeout=-1)
      * @param array|string $ids
-     * @param mixed $value
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
@@ -84,7 +82,6 @@ class CouchbaseTask
     /**
      * @Task(timeout=-1)
      * @param array|string $ids
-     * @param mixed $value
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
@@ -100,7 +97,6 @@ class CouchbaseTask
 
     /**
      * @Task(timeout=-1)
-     * @param mixed $ids
      * @todo error handling.
      */
     final public function remove($ids, array $options, string $retryConditionClass): void
@@ -112,7 +108,7 @@ class CouchbaseTask
             }
         );
 
-        if (!is_array($data) && !empty($data->error)) { //TODO:
+        if (!is_array($data) && !empty($data->error)) { // TODO:
             if ($data->error->getCode() !== COUCHBASE_KEY_ENOENT) {
                 throw $data->error;
             }
@@ -122,7 +118,6 @@ class CouchbaseTask
     /**
      * @Task(timeout=-1)
      * @param array|string $ids
-     * @return mixed
      */
     final public function getAndLock($ids, int $lockTime, array $options, string $retryConditionClass)
     {
@@ -200,7 +195,7 @@ class CouchbaseTask
     {
         $retryCondition = new $retryConditionClass($connection);
         if (!($retryCondition instanceof BaseRetryCondition)) {
-            throw new Exception("Class {$retryConditionClass} must be a child class of " . BaseRetryCondition::class);
+            throw new \Exception("Class {$retryConditionClass} must be a child class of " . BaseRetryCondition::class);
         }
         return (new ExponentialBackoff($retryCondition))->setMaxAttempts($maxAttempts);
     }

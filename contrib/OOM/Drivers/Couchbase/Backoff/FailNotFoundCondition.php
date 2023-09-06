@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Crowdstar\OOM\Drivers\Couchbase\Backoff;
 
-use CouchbaseException;
 use Exception;
 
 /**
@@ -13,12 +12,9 @@ use Exception;
  */
 class FailNotFoundCondition extends BaseRetryCondition
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function met($result, ?Exception $e): bool
+    public function met($result, ?\Exception $e): bool
     {
-        if (($e instanceof CouchbaseException) && ($e->getCode() === COUCHBASE_KEY_ENOENT)) {
+        if (($e instanceof \CouchbaseException) && ($e->getCode() === COUCHBASE_KEY_ENOENT)) {
             return true;
         }
 

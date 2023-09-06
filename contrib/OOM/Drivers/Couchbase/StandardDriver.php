@@ -8,9 +8,6 @@ use Crowdstar\OOM\Exception;
 
 class StandardDriver extends AbstractDriver
 {
-    /**
-     * {@inheritdoc}
-     */
     final protected function getEntityKey(string $schema, string $id): string
     {
         if (array_key_exists($id, self::RESERVED_IDS)) {
@@ -20,16 +17,12 @@ class StandardDriver extends AbstractDriver
         return "{$schema}:{$id}";
     }
 
-    /**
-     * {@inheritdoc}
-     */
     final protected function getCounterKey(string $schema): string
     {
         return "{$schema}:counter";
     }
 
     /**
-     * {@inheritdoc}
      * @todo replace MD5
      * @todo use entity object.
      */
@@ -39,7 +32,6 @@ class StandardDriver extends AbstractDriver
     }
 
     /**
-     * {@inheritdoc}
      * @todo replace MD5
      * @todo use entity object.
      */

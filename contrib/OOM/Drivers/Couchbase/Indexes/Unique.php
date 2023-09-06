@@ -11,7 +11,7 @@ class Unique extends AbstractIndex
 {
     protected string $id;
 
-    public function __construct(AbstractDriver $driver, string $indexKey, ?string $id = null)
+    public function __construct(AbstractDriver $driver, string $indexKey, string $id = null)
     {
         parent::__construct($driver, $indexKey);
         if (isset($id)) {
@@ -19,9 +19,6 @@ class Unique extends AbstractIndex
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function add(string $id): bool
     {
         if (!empty($this->id)) {
@@ -38,7 +35,6 @@ class Unique extends AbstractIndex
     }
 
     /**
-     * {@inheritDoc}
      * @throws CouchbaseException
      * @todo
      * @todo allow to remove multiple keys in one call.

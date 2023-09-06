@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Crowdstar\OOM\Drivers\Couchbase\Backoff;
 
-use CouchbaseException;
 use CrowdStar\Backoff\AbstractRetryCondition;
 use Crowdstar\CouchbaseAdapter\CouchbaseAdapter;
 use Exception;
@@ -21,9 +20,6 @@ class BaseRetryCondition extends AbstractRetryCondition
         $this->adapter = $adapter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function throwable(): bool
     {
         return $this->throwable;
@@ -40,12 +36,12 @@ class BaseRetryCondition extends AbstractRetryCondition
      *   * COUCHBASE_KEY_EEXISTS: Key already exists.
      *
      * {@inheritdoc}
-     * @throws Exception
+     * @throws \Exception
      */
-    public function met($result, ?Exception $e): bool
+    public function met($result, ?\Exception $e): bool
     {
         if (!empty($e)) {
-            if ($e instanceof CouchbaseException) {
+            if ($e instanceof \CouchbaseException) {
                 if ($e->getCode() === COUCHBASE_ETMPFAIL) {
                     // Log it at DEBUG level here since the exception will be thrown out from the call, causing error log written to the default logger.
                     $this->log(LogLevel::DEBUG, "Failed to query on Couchbase due to error code {$e->getCode()} (probably server busy).");

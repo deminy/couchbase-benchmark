@@ -18,8 +18,8 @@ trait CouchbaseCallsTrait
 {
     /**
      * @param array|string $ids
-     * @throws Exception
      * @return array|mixed|null
+     * @throws Exception
      */
     public function get($ids, array $options = [], string $retryConditionClass = SilenceNotFoundCondition::class)
     {
@@ -28,7 +28,6 @@ trait CouchbaseCallsTrait
 
     /**
      * @param array|string $ids
-     * @param mixed $value
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
@@ -39,7 +38,6 @@ trait CouchbaseCallsTrait
 
     /**
      * @param array|string $ids
-     * @param mixed $value
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
@@ -50,7 +48,6 @@ trait CouchbaseCallsTrait
 
     /**
      * @param array|string $ids
-     * @param mixed $value
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
@@ -61,7 +58,6 @@ trait CouchbaseCallsTrait
 
     /**
      * @todo error handling.
-     * @param mixed $ids
      */
     final public function remove($ids, array $options = [], string $retryConditionClass = SilenceNotFoundCondition::class): void
     {
@@ -80,7 +76,6 @@ trait CouchbaseCallsTrait
 
     /**
      * @param array|string $ids
-     * @return mixed
      */
     protected function getAndLock($ids, int $lockTime, array $options = [], string $retryConditionClass = SilenceNotFoundCondition::class)
     {

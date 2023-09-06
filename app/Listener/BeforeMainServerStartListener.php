@@ -10,7 +10,6 @@ use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\BeforeMainServerStart;
 use Hyperf\Utils\ApplicationContext;
-use Throwable;
 
 class BeforeMainServerStartListener implements ListenerInterface
 {
@@ -34,7 +33,7 @@ class BeforeMainServerStartListener implements ListenerInterface
         while (true) {
             try {
                 $couchbaseAdapter->getActiveConnection();
-            } catch (Throwable $t) {
+            } catch (\Throwable $t) {
                 if ((time() - $start) < 60) {
                     $logger->notice('Unable to connect to Couchbase. Will try again in 2 seconds.');
                     sleep(2);

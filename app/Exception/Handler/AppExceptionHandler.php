@@ -9,7 +9,6 @@ use Hyperf\ExceptionHandler\ExceptionHandler;
 use Hyperf\HttpMessage\Exception\HttpException;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Psr\Http\Message\ResponseInterface;
-use Throwable;
 
 class AppExceptionHandler extends ExceptionHandler
 {
@@ -20,7 +19,7 @@ class AppExceptionHandler extends ExceptionHandler
         $this->logger = $logger;
     }
 
-    public function handle(Throwable $throwable, ResponseInterface $response)
+    public function handle(\Throwable $throwable, ResponseInterface $response)
     {
         $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));
         $this->logger->error($throwable->getTraceAsString());
@@ -33,7 +32,7 @@ class AppExceptionHandler extends ExceptionHandler
      *
      * @see \Hyperf\HttpServer\Exception\Handler\HttpExceptionHandler
      */
-    public function isValid(Throwable $throwable): bool
+    public function isValid(\Throwable $throwable): bool
     {
         return !($throwable instanceof HttpException);
     }
