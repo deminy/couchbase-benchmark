@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@DoctrineAnnotation'                    => true,
@@ -10,7 +10,7 @@ return PhpCsFixer\Config::create()
         '@PSR2'                                  => true,
         '@Symfony'                               => true,
         'array_syntax'                           => ['syntax' => 'short'],
-        'binary_operator_spaces'                 => ['align_double_arrow' => true, 'align_equals' => true],
+        'binary_operator_spaces'                 => ['operators' => ['=' => 'align', '=>' => 'align', ]],
         'blank_line_after_namespace'             => true,
         'blank_line_before_statement'            => ['statements' => ['declare']],
         'class_attributes_separation'            => true,
@@ -19,7 +19,7 @@ return PhpCsFixer\Config::create()
         'combine_consecutive_unsets'             => true,
         'declare_strict_types'                   => true,
         'general_phpdoc_annotation_remove'       => ['annotations' => ['author']],
-        'header_comment'                         => ['commentType' => 'PHPDoc', 'header' => '', 'separate' => 'bottom', 'location' => 'after_open'],
+        // 'header_comment'                      => ['commentType' => 'PHPDoc', 'header' => '', 'separate' => 'bottom', 'location' => 'after_open'],
         'increment_style'                        => ['style' => 'post'],
         'lambda_not_used_import'                 => false,
         'linebreak_after_opening_tag'            => true,
@@ -44,5 +44,9 @@ return PhpCsFixer\Config::create()
         'standardize_not_equals'                 => true,
         'yoda_style'                             => ['always_move_variable' => false, 'equal' => false, 'identical' => false],
     ])
-    ->setFinder(PhpCsFixer\Finder::create()->exclude(['runtime', 'vendor'])->in(__DIR__))
+    ->setFinder(
+        PhpCsFixer\Finder::create()
+            ->exclude(['runtime', 'vendor'])
+            ->in(__DIR__)
+    )
     ->setUsingCache(false);

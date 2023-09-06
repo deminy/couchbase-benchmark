@@ -1,4 +1,4 @@
-FROM phpswoole/swoole:4.7-php7.4-alpine
+FROM phpswoole/swoole:5.0-php8.1
 
 ARG APP_ENV=local
 ARG APP_NAME=demo
@@ -7,25 +7,36 @@ ENV APP_ENV=$APP_ENV \
     APP_NAME=$APP_NAME \
     SCAN_CACHEABLE=(true)
 
-RUN set -ex \
-    && docker-php-ext-configure pcntl --enable-pcntl \
-    && docker-php-ext-install pcntl \
-    && apk update \
-    && apk add --no-cache apache2-utils jq libcouchbase=2.10.6-r0 \
-    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS libcouchbase-dev=2.10.6-r0 zlib-dev \
-    && pecl update-channels \
-    && pecl install couchbase-2.6.2 redis-5.3.4 \
-    && docker-php-ext-enable couchbase redis
+RUN \
+    set -ex && \
+    docker-php-ext-configure pcntl --enable-pcntl && \
+    docker-php-ext-install pcntl && \
+    apt-get update && \
+    apt-get install apache2-utils lsb-release jq -y --no-install-recommends && \
+    curl -sfL http://ftp.br.debian.org/debian/pool/main/libe/libevent/libevent-core-2.1-7_2.1.12-stable-1_$(dpkg --print-architecture).deb -o libevent-core.deb && \
+    dpkg -i libevent-core.deb && \
+    curl -sfL https://github.com/couchbase/libcouchbase/releases/download/3.3.7/libcouchbase-3.3.7_debian$(lsb_release -rs)_$(lsb_release -cs)_$(dpkg --print-architecture).tar | tar -C . -x && \
+    cd libcouchbase-3.3.7_debian$(lsb_release -rs)_$(lsb_release -cs)_$(dpkg --print-architecture) && \
+    dpkg -i \
+        libcouchbase3-tools_3.3.7-*.deb \
+        libcouchbase3-libevent_3.3.7-*.deb \
+        libcouchbase3_3.3.7-*.deb \
+        libcouchbase-dev_3.3.7-*.deb && \
+    cd - && \
+    rm -rf libevent-core.deb libcouchbase-3.3.7_debian$(lsb_release -rs)_$(lsb_release -cs)_$(dpkg --print-architecture) && \
+    pecl update-channels && \
+    pecl install couchbase-3.2.2 && \
+    docker-php-ext-enable couchbase
 
 COPY ./ /var/www/
 COPY ./docker/rootfilesystem/ /
 
-RUN set -ex \
-    && composer install --no-dev -nq --no-progress \
-    && php ./hyperf.php \
-    && apk del .build-deps \
-    && composer clearcache \
-    && rm -rf /var/cache/apk/* /tmp/* /usr/share/man /usr/src/php.tar.xz* $HOME/.composer/*-old.phar
+RUN \
+    set -ex && \
+    composer install --no-dev -nq --no-progress && \
+    php ./hyperf.php && \
+    composer clearcache && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /usr/share/man /usr/src/php.tar.xz* $HOME/.composer/*-old.phar
 
 EXPOSE 80
 

@@ -23,7 +23,7 @@ class BeforeWorkerStartListener implements ListenerInterface
     /**
      * @param BeforeWorkerStart $event
      */
-    public function process(object $event)
+    public function process(object $event): void
     {
         if (Coroutine::getPcid() === false) { // Task worker
             /** @var CouchbaseAdapter $couchbaseAdapter */

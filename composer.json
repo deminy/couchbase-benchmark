@@ -4,27 +4,28 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.4",
-        "ext-swoole": ">=4.6.0",
-        "couchbase/php-couchbase": "2.6.2",
-        "crowdstar/exponential-backoff": "~3.0.0",
-        "crowdstar/reflection": "~1.0.0",
-        "hyperf/config": "~2.2.0",
-        "hyperf/di": "~2.2.0",
-        "hyperf/framework": "~2.2.0",
-        "hyperf/http-server": "~2.2.0",
-        "hyperf/logger": "~2.2.0",
-        "hyperf/task": "~2.2.0",
-        "swoole/ide-helper": "~4.7.0"
+        "php": ">=8.1",
+        "ext-couchbase": "~3.2.2",
+        "ext-swoole": ">=5.0.0",
+        "couchbase/couchbase3": "3.2.2",
+        "crowdstar/exponential-backoff": "~3.0",
+        "crowdstar/reflection": "~2.0",
+        "hyperf/config": "~3.0.0",
+        "hyperf/di": "~3.0.0",
+        "hyperf/framework": "~3.0.0",
+        "hyperf/http-server": "~3.0.0",
+        "hyperf/logger": "~3.0.0",
+        "hyperf/task": "~3.0.0",
+        "swoole/ide-helper": "~5.0.0"
     },
     "repositories": [
         {
             "type": "package",
             "package": {
-                "name": "couchbase/php-couchbase",
-                "version": "2.6.2",
+                "name": "couchbase/couchbase3",
+                "version": "3.2.2",
                 "dist": {
-                    "url": "https://github.com/couchbase/php-couchbase/archive/v2.6.2.zip",
+                    "url": "https://github.com/couchbase/php-couchbase/archive/v3.2.2.zip",
                     "type": "zip"
                 }
             }
@@ -39,6 +40,11 @@
     },
     "prefer-stable": true,
     "config" : {
+        "platform": {
+            "php": "8.1.22",
+            "ext-couchbase": "3.2.2",
+            "ext-swoole": "5.0.3"
+        },
         "apcu-autoloader": true,
         "discard-changes": true,
         "optimize-autoloader": true,
