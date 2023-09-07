@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "098e8c04da04142f9c9aeea463990b1f",
+    "content-hash": "577683f3ba37399a03118b68d6430ed6",
     "packages": [
         {
             "name": "couchbase/couchbase3",
@@ -3931,7 +3931,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.1",
+        "php": "~8.1.0",
         "ext-couchbase": "~3.2.2",
         "ext-swoole": ">=5.0.0"
     },

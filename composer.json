@@ -32,8 +32,14 @@
         }
     ],
     "autoload": {
+        "files": [
+            "contrib/Couchbase3/aliases.php",
+            "contrib/Couchbase3/constants.php"
+        ],
         "psr-4": {
             "App\\": "app/",
+            "Couchbase\\": "contrib/Couchbase3/Couchbase",
+            "Crowdstar\\Couchbase3\\": "contrib/Couchbase3/Couchbase3/",
             "Crowdstar\\CouchbaseAdapter\\": "contrib/CouchbaseAdapter/",
             "Crowdstar\\OOM\\": "contrib/OOM/"
         }
