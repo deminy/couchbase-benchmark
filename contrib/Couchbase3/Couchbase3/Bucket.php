@@ -568,10 +568,10 @@ class Bucket
 
         if ($delta >= 0) {
             $counterOptions = new IncrementOptions();
-            $operation = 'increment';
+            $operation      = 'increment';
         } else {
             $counterOptions = new DecrementOptions();
-            $operation = 'decrement';
+            $operation      = 'decrement';
         }
         $counterOptions->delta(abs($delta));
         if (isset($options[Options::INITIAL])) {
