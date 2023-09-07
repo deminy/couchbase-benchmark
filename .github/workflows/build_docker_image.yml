@@ -32,7 +32,7 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
-          tags: deminy/couchbase-benchmark:latest
+          tags: deminy/couchbase-benchmark:3
 
       -
         name: Image digest

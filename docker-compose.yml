@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: deminy/couchbase-benchmark
+    image: deminy/couchbase-benchmark:3
     environment:
       VERBOSE_LOGGING: "true"
     links:
@@ -13,7 +13,7 @@ services:
     volumes:
       - ./:/var/www
   couchbase:
-    image: deminy/couchbase
+    image: deminy/couchbase:7.1.1
     environment:
       CB_ADMIN: username
       CB_ADMIN_PASSWORD: password
