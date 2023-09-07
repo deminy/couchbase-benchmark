@@ -4,7 +4,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=8.1",
+        "php": "~8.1.0",
         "ext-couchbase": "~3.2.2",
         "ext-swoole": ">=5.0.0",
         "couchbase/couchbase3": "3.2.2",
