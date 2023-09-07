@@ -18,7 +18,7 @@ docker run --rm \
     -e COUCHBASE_USER= \
     -e COUCHBASE_PASS= \
     -e COUCHBASE_BUCKET= \
-    -ti deminy/couchbase-benchmark:3
+    -ti deminy/couchbase-benchmark
 ```
 
 You need to update Docker environment variable _COUCHBASE_HOST_, _COUCHBASE_USER_, _COUCHBASE_PASS_, and
@@ -34,7 +34,7 @@ docker run --rm \
     -e COUCHBASE_PASS= \
     -e COUCHBASE_BUCKET= \
     -e COUCHBASE_OPTIONS="truststorepath=/couchbase.pem" \
-    -ti deminy/couchbase-benchmark:3
+    -ti deminy/couchbase-benchmark
 
 # or, if we don't want to validate the SSL certificate while benchmarking. This should be used for debugging purposes only.
 docker run --rm \
@@ -44,7 +44,7 @@ docker run --rm \
     -e COUCHBASE_PASS= \
     -e COUCHBASE_BUCKET= \
     -e COUCHBASE_OPTIONS="ssl=no_verify&truststorepath=/couchbase.pem" \
-    -ti deminy/couchbase-benchmark:3
+    -ti deminy/couchbase-benchmark
 ```
 
 # Commands for Local Development
@@ -54,12 +54,12 @@ docker run --rm \
 docker run --rm -v "$(pwd):/var/www" -w /var/www -i jakzal/phpqa:php8.1 php-cs-fixer fix
 
 # To build the Docker image. We build AMR64 images only because there is no download link for ARM64.
-docker build --platform linux/amd64 -t deminy/couchbase-benchmark:3 .
+docker build --platform linux/amd64 -t deminy/couchbase-benchmark .
 
 # To read the manual of command "ab".
-docker run --rm --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark:3 -c "ab -h"
+docker run --rm --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "ab -h"
 # To install PHP packages.
-docker run --rm -v "$(pwd):/var/www" --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark:3 -c "composer install -n"
+docker run --rm -v "$(pwd):/var/www" --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "composer install -n"
 ```
 
 If you want to test the benchmark script locally, you can start a Couchbase container first, then use it to run the
@@ -69,6 +69,6 @@ benchmark script, like following:
 docker run --rm -d --name couchbase -e CB_ADMIN=username -e CB_ADMIN_PASSWORD=password -e CB_BUCKET=test -t deminy/couchbase:7.1.1
 docker run --rm \
     -e COUCHBASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' couchbase) \
-    -ti deminy/couchbase-benchmark:3
+    -ti deminy/couchbase-benchmark
 docker stop couchbase
 ```

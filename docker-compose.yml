@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: deminy/couchbase-benchmark:3
+    image: deminy/couchbase-benchmark
     environment:
       VERBOSE_LOGGING: "true"
     links:
