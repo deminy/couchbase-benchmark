@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Crowdstar\CouchbaseAdapter;
 
-use Couchbase\Bucket;
-use Couchbase\Cluster;
-use Couchbase\ClusterOptions;
+use Crowdstar\Couchbase3\Bucket;
+use Crowdstar\Couchbase3\Cluster;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -26,8 +25,6 @@ class CouchbaseAdapter
      * @var string[]
      */
     protected array $config;
-
-    protected Cluster $cluster;
 
     protected Bucket $bucket;
 
@@ -99,10 +96,9 @@ class CouchbaseAdapter
         }
 
         // TODO: handle connection failures.
-        $options = new ClusterOptions();
-        $options->credentials($this->config['user'], $this->config['pass']);
-        $this->cluster = new Cluster($connectionString, $options);
-        $this->bucket  = $this->cluster->bucket($this->config['bucket']);
+        $cluster = new Cluster($connectionString);
+        $cluster->authenticateAs($this->config['user'], $this->config['pass']);
+        $this->bucket = $cluster->openBucket($this->config['bucket']);
 
         $this->lastUseTime = microtime(true);
 
@@ -134,7 +130,7 @@ class CouchbaseAdapter
         //           \Crowdstar\CouchbaseAdapter\CouchbaseAdapter::getActiveConnection()
         //             \Crowdstar\CouchbaseAdapter\CouchbaseAdapter::reconnect() // Couchbase is forced to reconnect since $this->lastUseTime is 0.
         $this->lastUseTime = 0.0;
-        unset($this->bucket, $this->cluster);
+        unset($this->bucket);
     }
 
     public function check(): bool
@@ -153,11 +149,6 @@ class CouchbaseAdapter
         $this->logger->log($level, $message, $context);
 
         return $this;
-    }
-
-    public function getCluster(): Cluster
-    {
-        return $this->cluster;
     }
 
     /**
