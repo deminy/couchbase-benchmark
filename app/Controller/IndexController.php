@@ -109,9 +109,9 @@ class IndexController
         // This is to test method upsert().
         $logger->debug('2-1. Update the 2nd key (a new key) using method upsert().');
         // Total # of Couchbase queries: 6.
-        $driver->upsert($key2, ''); // PASS; new record
+        $driver->upsert($key2, 'step 2-1'); // PASS; new record
         // Total # of Couchbase queries: 7.
-        if ($driver->get($key2) !== '') {
+        if ($driver->get($key2) !== 'step 2-1') {
             return $this->getErrorResponse('upsert() should pass.');
         }
         $logger->debug('2-2. Update the 2nd key again (an existing key) using method upsert().');

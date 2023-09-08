@@ -135,7 +135,7 @@ class CouchbaseTask
      * @todo return value
      */
     #[Task(timeout: -1)]
-    final public function counter($ids, int $delta = 1, array $options, string $retryConditionClass)
+    final public function counter($ids, int $delta, array $options, string $retryConditionClass)
     {
         $options    = $options ?: ['initial' => 1];
         $connection = $this->getConnection();
