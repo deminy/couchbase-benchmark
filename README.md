@@ -8,6 +8,8 @@ This repository is to run benchmark with Couchbase servers.
 * The 2nd benchmark makes 500 HTTP requests in total. The # of concurrent threads is the same as the # of persistent Coucbhase connections.
 * Each HTTP request performs 24 Couchbase operations, including _get()_, _insert()_, _upsert()_, _replace()_, _counter()_, and _remove()_.
 
+The benchmark tool works with Couchbase server 6.5 to 7.2. Other versions of Couchbase server are not tested.
+
 # How to Run a Benchmark
 
 Run following command to benchmark with a specific Couchbase server:
@@ -66,9 +68,14 @@ If you want to test the benchmark script locally, you can start a Couchbase cont
 benchmark script, like following:
 
 ```bash
+# Start a Couchbase container.
 docker run --rm -d --name couchbase -e CB_ADMIN=username -e CB_ADMIN_PASSWORD=password -e CB_BUCKET=test -t deminy/couchbase:7.1.1
+
+# Run a benchmark with the Couchbase container.
 docker run --rm \
     -e COUCHBASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' couchbase) \
     -ti deminy/couchbase-benchmark
+
+# Stop the Couchbase container.
 docker stop couchbase
 ```
