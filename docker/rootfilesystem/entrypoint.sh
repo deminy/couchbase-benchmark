@@ -10,7 +10,7 @@ done
 sleep 2 # Give enough time for other worker processes to start and warm up.
 
 NUM_OF_PROCESSES=$(curl -s http://127.0.0.1/stats | jq .task_worker_num | xargs)
-if [[ -z "${NUM_OF_PROCESSES}" ]] ; then
+if [ -z "${NUM_OF_PROCESSES}" ] ; then
     echo "ERROR: Unable to get # of task-worker processes."
     exit 1
 fi
