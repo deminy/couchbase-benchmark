@@ -2,6 +2,7 @@ FROM phpswoole/swoole:5.0-php8.1
 
 ARG APP_ENV=local
 ARG APP_NAME=demo
+ARG LIBCOUCHBASE_VERSION=3.3.9
 
 ENV APP_ENV=$APP_ENV \
     APP_NAME=$APP_NAME \
@@ -15,15 +16,15 @@ RUN \
     apt-get install apache2-utils lsb-release jq -y --no-install-recommends && \
     curl -sfL http://ftp.br.debian.org/debian/pool/main/libe/libevent/libevent-core-2.1-7_2.1.12-stable-1_$(dpkg --print-architecture).deb -o libevent-core.deb && \
     dpkg -i libevent-core.deb && \
-    curl -sfL https://github.com/couchbase/libcouchbase/releases/download/3.3.7/libcouchbase-3.3.7_debian$(lsb_release -rs)_$(lsb_release -cs)_$(dpkg --print-architecture).tar | tar -C . -x && \
-    cd libcouchbase-3.3.7_debian$(lsb_release -rs)_$(lsb_release -cs)_$(dpkg --print-architecture) && \
+    curl -sfL https://github.com/couchbase/libcouchbase/releases/download/${LIBCOUCHBASE_VERSION}/libcouchbase-${LIBCOUCHBASE_VERSION}_debian$(lsb_release -rs)_$(lsb_release -cs)_$(dpkg --print-architecture).tar | tar -C . -x && \
+    cd libcouchbase-${LIBCOUCHBASE_VERSION}_debian$(lsb_release -rs)_$(lsb_release -cs)_$(dpkg --print-architecture) && \
     dpkg -i \
-        libcouchbase3-tools_3.3.7-*.deb \
-        libcouchbase3-libevent_3.3.7-*.deb \
-        libcouchbase3_3.3.7-*.deb \
-        libcouchbase-dev_3.3.7-*.deb && \
+        libcouchbase3-tools_${LIBCOUCHBASE_VERSION}-*.deb \
+        libcouchbase3-libevent_${LIBCOUCHBASE_VERSION}-*.deb \
+        libcouchbase3_${LIBCOUCHBASE_VERSION}-*.deb \
+        libcouchbase-dev_${LIBCOUCHBASE_VERSION}-*.deb && \
     cd - && \
-    rm -rf libevent-core.deb libcouchbase-3.3.7_debian$(lsb_release -rs)_$(lsb_release -cs)_$(dpkg --print-architecture) && \
+    rm -rf libevent-core.deb libcouchbase-${LIBCOUCHBASE_VERSION}_debian$(lsb_release -rs)_$(lsb_release -cs)_$(dpkg --print-architecture) && \
     pecl update-channels && \
     pecl install couchbase-3.2.2 && \
     docker-php-ext-enable couchbase

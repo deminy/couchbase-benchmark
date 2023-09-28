@@ -30,6 +30,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: linux/amd64
           push: true
           tags: deminy/couchbase-benchmark:3.2.2-php8.1, deminy/couchbase-benchmark:3, deminy/couchbase-benchmark:latest
