@@ -56,7 +56,7 @@ docker run --rm \
 docker run --rm -v "$(pwd):/var/www" -w /var/www -i jakzal/phpqa:php8.1 php-cs-fixer fix
 
 # To build the Docker image. We build AMR64 images only because there is no download link for ARM64.
-docker build --platform linux/amd64 -t deminy/couchbase-benchmark .
+docker build --platform linux/amd64 --build-arg PHP_VERSION=8.1 -t deminy/couchbase-benchmark .
 
 # To read the manual of command "ab".
 docker run --rm --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "ab -h"
