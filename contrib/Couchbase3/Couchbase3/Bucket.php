@@ -523,7 +523,7 @@ class Bucket
                     $return[$id] = Helper::createDocumentByCas($result->cas());
                 } catch (DocumentNotFoundException $e) {
                     $return[$id] = Helper::createErrorDocument(COUCHBASE_KEY_ENOENT);
-                } catch (CasMismatchException|BadInputException|TempFailException $e) {
+                } catch (BadInputException|CasMismatchException|TempFailException $e) {
                     // BadInputException: This happens when passing in an invalid CAS value like "an-invalid-cas-value".
                     // TempFailException: This happens when trying to unlock an unlocked item.
                     $return[$id] = Helper::createErrorDocument(COUCHBASE_ETMPFAIL);
