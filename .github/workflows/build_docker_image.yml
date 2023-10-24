@@ -8,6 +8,10 @@ on:
 jobs:
   build_docker_image:
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: true
+      matrix:
+        php: ["7.4", "8.0", "8.1"]
 
     steps:
       - name: Checkout
@@ -30,6 +34,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
+          build-args: |
+            PHP_VERSION=${{ matrix.php }}
           platforms: linux/amd64
           push: true
-          tags: deminy/couchbase-benchmark:3.2.2-php8.1, deminy/couchbase-benchmark:3, deminy/couchbase-benchmark:latest
+          tags: deminy/couchbase-benchmark:3.2.2-php${{ matrix.php }}

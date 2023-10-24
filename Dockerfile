@@ -1,4 +1,6 @@
-FROM phpswoole/swoole:5.0-php8.1
+ARG PHP_VERSION
+
+FROM phpswoole/swoole:4.8-php${PHP_VERSION}
 
 ARG APP_ENV=local
 ARG APP_NAME=demo
