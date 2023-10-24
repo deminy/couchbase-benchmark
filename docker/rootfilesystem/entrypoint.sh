@@ -15,6 +15,13 @@ if [ -z "${NUM_OF_PROCESSES}" ] ; then
     exit 1
 fi
 
+echo
+echo Start running benchmark under the following environment:
+echo PHP: $(php -r 'echo phpversion();')
+echo Swoole: $(php -r 'echo (new ReflectionExtension("swoole"))->getVersion();')
+echo Couchbase: $(php -r 'echo (new ReflectionExtension("couchbase"))->getVersion();')
+echo
+
 printf "Benchmarks start at $(php -r 'echo date("Y-m-d H:i:s");').\n\n\n\n"  >  ./output.txt
 ab -n 500 -c 100                 http://127.0.0.1/test                       >> ./output.txt 2>&1
 printf "\n\n\n\n\n\n\n\n\n\n"                                                >> ./output.txt
