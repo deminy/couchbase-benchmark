@@ -19,7 +19,9 @@ use Swoole\Http\Server as SwooleHttpServer;
 
 class IndexController
 {
-    #[Inject]
+    /**
+     * @Inject
+     */
     protected ResponseInterface $response;
 
     public function index(): array

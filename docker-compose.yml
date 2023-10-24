@@ -13,7 +13,7 @@ services:
     volumes:
       - ./:/var/www
   couchbase:
-    image: deminy/couchbase:7.1.1
+    image: deminy/couchbase:7.2.2
     environment:
       CB_ADMIN: username
       CB_ADMIN_PASSWORD: password

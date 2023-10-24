@@ -23,10 +23,10 @@ class CouchbaseTask
     protected CouchbaseAdapter $connection;
 
     /**
+     * @Task(timeout=-1)
      * @param array|string $ids
      * @return array|mixed|null
      */
-    #[Task(timeout: -1)]
     final public function get($ids, array $options, string $retryConditionClass)
     {
         $connection = $this->getConnection();
@@ -48,11 +48,11 @@ class CouchbaseTask
     }
 
     /**
+     * @Task(timeout=-1)
      * @param array|string $ids
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
-    #[Task(timeout: -1)]
     final public function upsert($ids, $value, array $options, string $retryConditionClass)
     {
         $connection = $this->getConnection();
@@ -64,11 +64,11 @@ class CouchbaseTask
     }
 
     /**
+     * @Task(timeout=-1)
      * @param array|string $ids
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
-    #[Task(timeout: -1)]
     final public function insert($ids, $value, array $options, string $retryConditionClass)
     {
         $connection = $this->getConnection();
@@ -80,11 +80,11 @@ class CouchbaseTask
     }
 
     /**
+     * @Task(timeout=-1)
      * @param array|string $ids
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
-    #[Task(timeout: -1)]
     final public function replace($ids, $value, array $options, string $retryConditionClass)
     {
         $connection = $this->getConnection();
@@ -96,9 +96,9 @@ class CouchbaseTask
     }
 
     /**
+     * @Task(timeout=-1)
      * @todo error handling.
      */
-    #[Task(timeout: -1)]
     final public function remove($ids, array $options, string $retryConditionClass): void
     {
         $connection = $this->getConnection();
@@ -116,9 +116,9 @@ class CouchbaseTask
     }
 
     /**
+     * @Task(timeout=-1)
      * @param array|string $ids
      */
-    #[Task(timeout: -1)]
     final public function getAndLock($ids, int $lockTime, array $options, string $retryConditionClass)
     {
         $connection = $this->getConnection();
@@ -130,11 +130,11 @@ class CouchbaseTask
     }
 
     /**
+     * @Task(timeout=-1)
      * @param array|string $ids
      * @return array|int
      * @todo return value
      */
-    #[Task(timeout: -1)]
     final public function counter($ids, int $delta, array $options, string $retryConditionClass)
     {
         $options    = $options ?: ['initial' => 1];
@@ -156,7 +156,9 @@ class CouchbaseTask
         return $this->getValue($data);
     }
 
-    #[Task(timeout: -1)]
+    /**
+     * @Task(timeout=-1)
+     */
     final public function info(): array
     {
         $connection = $this->getConnection();
@@ -167,7 +169,9 @@ class CouchbaseTask
         );
     }
 
-    #[Task(timeout: -1)]
+    /**
+     * @Task(timeout=-1)
+     */
     final public function flushBucket(): void
     {
         $connection = $this->getConnection();
