@@ -6,16 +6,16 @@
     "require": {
         "php": ">=7.4 <8.2",
         "ext-couchbase": "~3.2.2",
-        "ext-swoole": "~4.8 || ~5.0",
+        "ext-swoole": "~5.1",
         "crowdstar/exponential-backoff": "~3.0.0",
         "crowdstar/reflection": "~1.0 || ~2.0",
-        "hyperf/config": "~2.2.0",
-        "hyperf/di": "~2.2.0",
-        "hyperf/framework": "~2.2.0",
-        "hyperf/http-server": "~2.2.0",
-        "hyperf/logger": "~2.2.0",
-        "hyperf/task": "~2.2.0",
-        "swoole/ide-helper": "~4.8 || ~5.0"
+        "hyperf/config": "~3.0.0",
+        "hyperf/di": "~3.0.0",
+        "hyperf/framework": "~3.0.0",
+        "hyperf/http-server": "~3.0.0",
+        "hyperf/logger": "~3.0.0",
+        "hyperf/task": "~3.0.0",
+        "swoole/ide-helper": "~5.1"
     },
     "autoload": {
         "files": [
@@ -33,9 +33,9 @@
     "prefer-stable": true,
     "config" : {
         "platform": {
-            "php": "7.4.33",
+            "php": "8.0.30",
             "ext-couchbase": "3.2.2",
-            "ext-swoole": "4.8.13"
+            "ext-swoole": "5.1.1"
         },
         "apcu-autoloader": true,
         "discard-changes": true,
