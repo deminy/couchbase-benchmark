@@ -24,6 +24,7 @@
 # Ignore other files/folders
 /*.txt
 /.git/
+/.github/
 /.gitignore
 /docker-compose.yml
 /Dockerfile
