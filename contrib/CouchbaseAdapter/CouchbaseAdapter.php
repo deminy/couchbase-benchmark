@@ -41,7 +41,7 @@ class CouchbaseAdapter
     /**
      * Execute a Couchbase command after getting an active connection with method $this->getActiveConnection().
      *
-     * @see \Crowdstar\CouchbaseAdapter\CouchbaseAdapter::getActiveConnection()
+     * @see CouchbaseAdapter::getActiveConnection()
      */
     public function __call(string $name, array $arguments)
     {

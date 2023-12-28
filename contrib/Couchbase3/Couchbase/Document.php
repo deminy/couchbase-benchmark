@@ -11,7 +11,7 @@ namespace Couchbase;
  *
  * Class Couchbase\Document exists in Couchbase 2 only; it doesn't exist in Couchbase 3.
  *
- * @see \Couchbase\Bucket
+ * @see Bucket
  */
 class Document
 {

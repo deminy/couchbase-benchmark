@@ -25,7 +25,7 @@ abstract class AbstractDriver extends BaseDriver
     protected const MAX_RETRIES = 3;
 
     /**
-     * @see \Crowdstar\OOM\Drivers\Couchbase\AbstractDriver::getReservedSchemaNames()
+     * @see AbstractDriver::getReservedSchemaNames()
      * @see \Crowdstar\OOM\AbstractModel::initSchema()
      */
     protected const RESERVED_SCHEMA_NAMES = [
@@ -33,8 +33,8 @@ abstract class AbstractDriver extends BaseDriver
     ];
 
     /**
-     * @see \Crowdstar\OOM\Drivers\Couchbase\StandardDriver::getEntityKey()
-     * @see \Crowdstar\OOM\Drivers\Couchbase\VersionBasedDriver::getEntityKey()
+     * @see StandardDriver::getEntityKey()
+     * @see VersionBasedDriver::getEntityKey()
      */
     protected const RESERVED_IDS = [
         'counter' => null,
@@ -615,7 +615,7 @@ abstract class AbstractDriver extends BaseDriver
     /**
      * To get next numeric ID to be used for new entity to be inserted.
      *
-     * @see \Crowdstar\OOM\Drivers\Couchbase\AbstractDriver::create()
+     * @see AbstractDriver::create()
      */
     public function setEntityId(string $schema, AbstractEntity $entity): AbstractEntity
     {

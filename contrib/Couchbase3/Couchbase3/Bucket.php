@@ -628,7 +628,7 @@ class Bucket
      *
      * @param string $id the ID of the JSON document
      * @return LookupInBuilder
-     * @see \Crowdstar\Couchbase3\CustomizedHandler::getExpiryTime()
+     * @see CustomizedHandler::getExpiryTime()
      * @see https://docs.couchbase.com/php-sdk/2.6/subdocument-operations.html Sub-Document Operations
      * @see https://docs.couchbase.com/php-sdk/current/howtos/subdocument-operations.html Sub-Document Operations with the PHP SDK
      *
