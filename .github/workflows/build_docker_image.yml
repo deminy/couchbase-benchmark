@@ -29,8 +29,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push Docker image
-        id: docker_build
+      - name: Build and push Docker image of PHP ${{ matrix.php }}
+        if: matrix.php == '8.0'
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -38,4 +38,19 @@ jobs:
             PHP_VERSION=${{ matrix.php }}
           platforms: linux/amd64
           push: true
-          tags: deminy/couchbase-benchmark:3.2.2-php${{ matrix.php }}
+          tags: |
+            deminy/couchbase-benchmark:3.2.2-php${{ matrix.php }}
+            deminy/couchbase-benchmark:3
+            deminy/couchbase-benchmark:latest
+
+      - name: Build and push Docker image of PHP ${{ matrix.php }}
+        if: matrix.php != '8.0'
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          build-args: |
+            PHP_VERSION=${{ matrix.php }}
+          platforms: linux/amd64
+          push: true
+          tags: |
+            deminy/couchbase-benchmark:3.2.2-php${{ matrix.php }}
