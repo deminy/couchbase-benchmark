@@ -128,7 +128,7 @@ class Bucket
      * @param int $lockTime time to lock the documents
      * @return \Couchbase\Document|array document or list of the documents
      *
-     * @see \Couchbase\Bucket::unlock()
+     * @see Couchbase3Bucket::unlock()
      * @see \Crowdstar\Tests\Couchbase3\Bucket\CouchbaseGetAndLockAndUnlockSingleItemByIdTest
      * @see https://support.couchbase.com/hc/en-us/requests/44799 Method Getandlock() Doesn't Work As Expected in v3.2.2
      * @see https://issues.couchbase.com/browse/PCBC-840 API docs incorrectly specify getAndLock() $lockTime as ms not s
@@ -497,8 +497,8 @@ class Bucket
      *                       * "cas" last known document CAS, which has been returned by locking command
      * @return \Couchbase\Document|array document or list of the documents
      *
-     * @see \Couchbase\Bucket::get()
-     * @see \Couchbase\Bucket::getAndLock()
+     * @see Couchbase3Bucket::get()
+     * @see Couchbase3Bucket::getAndLock()
      *
      * @Couchbase2 A built-in Couchbase 2 method.
      */
