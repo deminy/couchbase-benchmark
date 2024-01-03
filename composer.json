@@ -7,6 +7,7 @@
         "php": ">=7.4 <8.2",
         "ext-couchbase": "~3.2.2",
         "ext-swoole": "~5.1",
+        "crowdstar/couchbase3": "~1.0.0",
         "crowdstar/exponential-backoff": "~3.0.0",
         "crowdstar/reflection": "~1.0 || ~2.0",
         "hyperf/config": "~3.0.0",
@@ -18,14 +19,9 @@
         "swoole/ide-helper": "~5.1"
     },
     "autoload": {
-        "files": [
-            "contrib/Couchbase3/aliases.php",
-            "contrib/Couchbase3/constants.php"
-        ],
         "psr-4": {
             "App\\": "app/",
             "Couchbase\\": "contrib/Couchbase3/Couchbase",
-            "Crowdstar\\Couchbase3\\": "contrib/Couchbase3/Couchbase3/",
             "Crowdstar\\CouchbaseAdapter\\": "contrib/CouchbaseAdapter/",
             "Crowdstar\\OOM\\": "contrib/OOM/"
         }

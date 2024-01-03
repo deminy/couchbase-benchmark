@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe63dbfd521395b2e190ca01e1fbf898",
+    "content-hash": "4c1ea90ba1d69141b5e4719180543bee",
     "packages": [
+        {
+            "name": "crowdstar/couchbase3",
+            "version": "v1.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Crowdstar/couchbase3.git",
+                "reference": "1f2c36ceca9223f935aeeecec00a7549e82412ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Crowdstar/couchbase3/zipball/1f2c36ceca9223f935aeeecec00a7549e82412ce",
+                "reference": "1f2c36ceca9223f935aeeecec00a7549e82412ce",
+                "shasum": ""
+            },
+            "require": {
+                "ext-couchbase": "~2.6.2 || ~3.2.2",
+                "php": "~7.4 || ~8.0"
+            },
+            "require-dev": {
+                "couchbase/couchbase2": "2.6.2",
+                "couchbase/couchbase3": "3.2.2",
+                "crowdstar/reflection": "~1.0.0 || ~2.0.0",
+                "deminy/counit": "~0.2.0",
+                "phpstan/phpstan": "^1.11.x-dev",
+                "phpunit/phpunit": "~9.0",
+                "swoole/ide-helper": "~4.8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/aliases.php",
+                    "src/constants.php"
+                ],
+                "psr-4": {
+                    "Couchbase\\": "src/Couchbase",
+                    "Crowdstar\\Couchbase3\\": "src/Couchbase3"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Allow legacy PHP code written for Couchbase 2 to work with Couchbase 3+.",
+            "support": {
+                "issues": "https://github.com/Crowdstar/couchbase3/issues",
+                "source": "https://github.com/Crowdstar/couchbase3/tree/v1.0.9"
+            },
+            "time": "2024-01-03T19:57:24+00:00"
+        },
         {
             "name": "crowdstar/exponential-backoff",
             "version": "3.0.11",
