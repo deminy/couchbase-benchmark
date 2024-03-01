@@ -11,7 +11,7 @@ class Unique extends AbstractIndex
 {
     protected string $id;
 
-    public function __construct(AbstractDriver $driver, string $indexKey, string $id = null)
+    public function __construct(AbstractDriver $driver, string $indexKey, ?string $id = null)
     {
         parent::__construct($driver, $indexKey);
         if (isset($id)) {

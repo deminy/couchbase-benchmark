@@ -51,8 +51,9 @@ class Helper
      * Please note that property "flags" and "token" of Couchbase Documents are not handled in this library.
      *
      * @todo Support property "cas".
+     * @param mixed $value
      */
-    public static function createDocument($value, string $cas = null): Document
+    public static function createDocument($value, ?string $cas = null): Document
     {
         $doc        = new Document();
         $doc->error = null;

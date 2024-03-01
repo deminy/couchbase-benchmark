@@ -28,6 +28,7 @@ trait CouchbaseCallsTrait
 
     /**
      * @param array|string $ids
+     * @param mixed $value
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
@@ -38,6 +39,7 @@ trait CouchbaseCallsTrait
 
     /**
      * @param array|string $ids
+     * @param mixed $value
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
@@ -48,6 +50,7 @@ trait CouchbaseCallsTrait
 
     /**
      * @param array|string $ids
+     * @param mixed $value
      * @return array|Document document or list of the documents
      * @todo which backoff condition?
      */
@@ -58,6 +61,7 @@ trait CouchbaseCallsTrait
 
     /**
      * @todo error handling.
+     * @param mixed $ids
      */
     final public function remove($ids, array $options = [], string $retryConditionClass = SilenceNotFoundCondition::class): void
     {

@@ -112,6 +112,9 @@ abstract class AbstractDriver extends BaseDriver
     }
 
     /**
+     * @param mixed $fields
+     * @param mixed $field1Value
+     * @param mixed $field2Values
      * @return array
      * @throws \CouchbaseException
      */
@@ -133,9 +136,10 @@ abstract class AbstractDriver extends BaseDriver
     }
 
     /**
+     * @param mixed $field1Value
      * @throws \CouchbaseException
      */
-    public function findByDoubleUniqueAll(string $schema, array $fields, $field1Value, int $offset = 0, int $limit = null): array
+    public function findByDoubleUniqueAll(string $schema, array $fields, $field1Value, int $offset = 0, ?int $limit = null): array
     {
         $getKeys = function () use ($schema, $fields, $field1Value, $offset, $limit) {
             $keys  = [];
@@ -153,6 +157,7 @@ abstract class AbstractDriver extends BaseDriver
     }
 
     /**
+     * @param mixed $field1Value
      * @throws \CouchbaseException
      */
     public function getDoubleIndexContents(string $schema, array $fields, $field1Value): object
@@ -182,7 +187,7 @@ abstract class AbstractDriver extends BaseDriver
      * @todo share code with other object retrieval, avoided for now to prevent regression
      * @throws \CouchbaseException
      */
-    public function findByKeyedRaw(string $schema, string $key, string $value, int $offset = 0, int $limit = null): array
+    public function findByKeyedRaw(string $schema, string $key, string $value, int $offset = 0, ?int $limit = null): array
     {
         $getKeys = function () use ($schema, $key, $value, $offset, $limit) {
             $keys = [];
@@ -205,6 +210,7 @@ abstract class AbstractDriver extends BaseDriver
     }
 
     /**
+     * @param mixed $field1Value
      * @throws \CouchbaseException
      */
     public function findAllByDoubleUniqueKeyedRaw(string $schema, array $fields, $field1Value): array
@@ -385,7 +391,7 @@ abstract class AbstractDriver extends BaseDriver
      *
      * {@inheritdoc}
      */
-    public function flush(LoggerInterface $logger, string $schema, string $entityClass, int $counter = null): self
+    public function flush(LoggerInterface $logger, string $schema, string $entityClass, ?int $counter = null): self
     {
         $stop    = static::DEFAULT_STOP;
         $counter = isset($counter) ? $counter : $this->count($schema);
@@ -408,6 +414,7 @@ abstract class AbstractDriver extends BaseDriver
      *
      * TODO share code with other index retrieval, avoided for now to prevent regression
      *
+     * @param mixed $value
      * @return array
      * @throws \CouchbaseException
      */
@@ -478,6 +485,7 @@ abstract class AbstractDriver extends BaseDriver
      *
      * @param string[] $keys
      * @param object $data
+     * @param mixed $id
      * @return bool
      * @throws \CouchbaseException
      * @SuppressWarnings(PHPMD.ShortVariable)
@@ -502,6 +510,7 @@ abstract class AbstractDriver extends BaseDriver
     /**
      * @param array $keys
      * @param array $field2ValuesToIds
+     * @param mixed $field1Value
      * @throws \CouchbaseException
      */
     final public function addIdsToDoubleUniqueIndex(string $schema, $keys, $field1Value, $field2ValuesToIds)
@@ -581,7 +590,7 @@ abstract class AbstractDriver extends BaseDriver
             $value = (property_exists($data, $removedIndexedField) ? $data->{$removedIndexedField} : null);
             $this->removeFromIndex($schema, $removedIndexedField, $value, $id);
         }
-        */
+         */
 
         $this->remove($this->getEntityKey($schema, $id));
 
@@ -604,6 +613,7 @@ abstract class AbstractDriver extends BaseDriver
 
     /**
      * @param array $fields
+     * @param mixed $field1Value
      * @todo Not yet implemented.
      */
     public function countByDoubleUnique(string $schema, $fields, $field1Value): int
@@ -723,6 +733,8 @@ abstract class AbstractDriver extends BaseDriver
 
     /**
      * @param string[] $keys
+     * @param mixed $data
+     * @param mixed $id
      * @throws \CouchbaseException
      */
     final protected function addToDoubleUniqueIndex(string $schema, array $keys, $data, $id): bool
@@ -743,7 +755,7 @@ abstract class AbstractDriver extends BaseDriver
         return true;
     }
 
-    private function addIndexes(AbstractEntity $entity, string $schema, string $field = null): self
+    private function addIndexes(AbstractEntity $entity, string $schema, ?string $field = null): self
     {
         $fields = $field ? [$field] : $entity::INDEXED_FIELDS;
         foreach ($fields as $field) {
@@ -753,7 +765,7 @@ abstract class AbstractDriver extends BaseDriver
         return $this;
     }
 
-    private function addUniqueIndexes(AbstractEntity $entity, string $schema, string $field = null): self
+    private function addUniqueIndexes(AbstractEntity $entity, string $schema, ?string $field = null): self
     {
         $fields = $field ? [$field] : $entity::UNIQUE_FIELDS;
         foreach ($fields as $field) {

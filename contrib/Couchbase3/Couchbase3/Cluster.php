@@ -39,7 +39,7 @@ class Cluster
     /**
      * @Couchbase2 A built-in Couchbase 2 method.
      */
-    public function manager(string $username = null, string $password = null)
+    public function manager(?string $username = null, ?string $password = null)
     {
         throw new ClusterMethodNotImplementedException();
     }

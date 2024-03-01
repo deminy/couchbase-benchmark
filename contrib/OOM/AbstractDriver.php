@@ -54,10 +54,11 @@ abstract class AbstractDriver
      *     1. the callback function may make changes on item data stored.
      *     2. this method doesn't return any data fetched.
      * It's the caller's responsibility to cache the final results if needed.
+     * @param mixed $value
      */
     abstract public function chunkBy(string $schema, string $key, $value, int $size, callable $callback): void;
 
-    abstract public function flush(LoggerInterface $logger, string $schema, string $entityClass, int $counter = null): self;
+    abstract public function flush(LoggerInterface $logger, string $schema, string $entityClass, ?int $counter = null): self;
 
     /**
      * @return array an array of reserved schema names, where array keys are schema names
