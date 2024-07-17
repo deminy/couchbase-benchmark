@@ -8,7 +8,7 @@ return [
         'user'            => env('COUCHBASE_USER', 'username'),
         'pass'            => env('COUCHBASE_PASS', 'password'),
         'bucket'          => env('COUCHBASE_BUCKET', 'test'),
-        'options'         => env('COUCHBASE_OPTIONS', ''),
+        'options'         => env('COUCHBASE_OPTIONS', 'ssl=no_verify&wait_for_config=true'),
         'settings'        => [
             # @see docker/rootfilesystem/usr/local/etc/php/conf.d/docker-php-ext-couchbase.ini
             # @see https://github.com/couchbase/php-couchbase/blob/v2.6.2/api/couchbase.php#L47

@@ -1,8 +1,7 @@
-version: '3.8'
-
 services:
   app:
     image: deminy/couchbase-benchmark
+    platform: linux/amd64
     environment:
       VERBOSE_LOGGING: "true"
     links:

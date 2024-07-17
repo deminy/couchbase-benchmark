@@ -35,7 +35,7 @@ docker run --rm \
     -e COUCHBASE_USER= \
     -e COUCHBASE_PASS= \
     -e COUCHBASE_BUCKET= \
-    -e COUCHBASE_OPTIONS="truststorepath=/couchbase.pem" \
+    -e COUCHBASE_OPTIONS="truststorepath=/couchbase.pem&wait_for_config=true" \
     -ti deminy/couchbase-benchmark
 
 # or, if we don't want to validate the SSL certificate while benchmarking. This should be used for debugging purposes only.
@@ -45,7 +45,7 @@ docker run --rm \
     -e COUCHBASE_USER= \
     -e COUCHBASE_PASS= \
     -e COUCHBASE_BUCKET= \
-    -e COUCHBASE_OPTIONS="ssl=no_verify&truststorepath=/couchbase.pem" \
+    -e COUCHBASE_OPTIONS="truststorepath=/couchbase.pem&ssl=no_verify&wait_for_config=true" \
     -ti deminy/couchbase-benchmark
 ```
 
@@ -72,7 +72,7 @@ benchmark script, like following:
 docker run --rm -d --name couchbase -e CB_ADMIN=username -e CB_ADMIN_PASSWORD=password -e CB_BUCKET=test -t deminy/couchbase:7.2.2
 
 # Run a benchmark with the Couchbase container.
-docker run --rm \
+docker run --rm --platform=linux/amd64 \
     -e COUCHBASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' couchbase) \
     -ti deminy/couchbase-benchmark
 
