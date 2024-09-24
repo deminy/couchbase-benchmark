@@ -10,8 +10,8 @@ use CrowdStar\Backoff\ExponentialBackoff;
 use Crowdstar\CouchbaseAdapter\CouchbaseAdapter;
 use Crowdstar\OOM\Drivers\Couchbase\Backoff\BaseRetryCondition;
 use Exception;
+use Hyperf\Context\ApplicationContext;
 use Hyperf\Task\Annotation\Task;
-use Hyperf\Utils\ApplicationContext;
 
 /**
  * Before calling a Couchbase command through exponential backoff, we get a Couchbase connection first.

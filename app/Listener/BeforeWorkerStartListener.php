@@ -6,9 +6,9 @@ namespace App\Listener;
 
 use App\Service\CouchbaseProxyInterface;
 use Crowdstar\CouchbaseAdapter\CouchbaseAdapter;
+use Hyperf\Context\ApplicationContext;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\BeforeWorkerStart;
-use Hyperf\Utils\ApplicationContext;
 use Swoole\Coroutine;
 
 class BeforeWorkerStartListener implements ListenerInterface

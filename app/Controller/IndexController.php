@@ -7,13 +7,13 @@ namespace App\Controller;
 use Couchbase\Exception;
 use Crowdstar\OOM\Drivers\Couchbase\StandardDriver;
 use CrowdStar\Reflection\Reflection;
+use Hyperf\Context\ApplicationContext;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Server\ServerFactory;
-use Hyperf\Utils\ApplicationContext;
 use Monolog\Logger;
 use Swoole\Http\Server as SwooleHttpServer;
 

@@ -12,7 +12,7 @@ use Crowdstar\OOM\Drivers\Couchbase\Backoff\FailKeyExistsCondition;
 use Crowdstar\OOM\Drivers\Couchbase\Backoff\FailNotFoundCondition;
 use Crowdstar\OOM\Drivers\Couchbase\Backoff\SilenceNotFoundCondition;
 use Crowdstar\OOM\Drivers\Couchbase\VersionBasedDriver;
-use Hyperf\Utils\ApplicationContext;
+use Hyperf\Context\ApplicationContext;
 
 trait CouchbaseCallsTrait
 {

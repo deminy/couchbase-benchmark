@@ -4,17 +4,17 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.4 <8.2",
+        "php": "~8.1.0",
         "ext-couchbase": "~3.2.2",
         "ext-swoole": "~5.1",
         "crowdstar/exponential-backoff": "~3.0.0",
         "crowdstar/reflection": "~1.0 || ~2.0",
-        "hyperf/config": "~3.0.0",
-        "hyperf/di": "~3.0.0",
-        "hyperf/framework": "~3.0.0",
-        "hyperf/http-server": "~3.0.0",
-        "hyperf/logger": "~3.0.0",
-        "hyperf/task": "~3.0.0",
+        "hyperf/config": "~3.1.0",
+        "hyperf/di": "~3.1.0",
+        "hyperf/framework": "~3.1.0",
+        "hyperf/http-server": "~3.1.0",
+        "hyperf/logger": "~3.1.0",
+        "hyperf/task": "~3.1.0",
         "swoole/ide-helper": "~5.1"
     },
     "autoload": {
@@ -33,9 +33,9 @@
     "prefer-stable": true,
     "config" : {
         "platform": {
-            "php": "8.0.30",
+            "php": "8.1.29",
             "ext-couchbase": "3.2.2",
-            "ext-swoole": "5.1.1"
+            "ext-swoole": "5.1.4"
         },
         "apcu-autoloader": true,
         "discard-changes": true,

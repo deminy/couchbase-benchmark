@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use function Hyperf\Support\env;
+
 return [
     'default' => [
         'protocol'        => env('COUCHBASE_PROTOCOL', 'couchbase'), // Must be "couchbase" or "couchbases".
