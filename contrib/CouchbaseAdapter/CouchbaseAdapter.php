@@ -135,6 +135,16 @@ class CouchbaseAdapter
     }
 
     /**
+     * @see config/autoload/couchbase.php
+     * @see docker/rootfilesystem/usr/local/etc/php/conf.d/docker-php-ext-couchbase.ini
+     * @see https://github.com/couchbase/php-couchbase/blob/v2.6.2/api/couchbase.php#L47
+     */
+    protected function getMaxIdleTime(): int
+    {
+        return $this->config['settings']['max_idle_time'];
+    }
+
+    /**
      * Initialize the connection string to Couchbase.
      */
     private function initConnectionString(): void
@@ -165,15 +175,5 @@ class CouchbaseAdapter
         }
 
         $this->log('debug', "Couchbase connection string: {$this->connstr}");
-    }
-
-    /**
-     * @see config/autoload/couchbase.php
-     * @see docker/rootfilesystem/usr/local/etc/php/conf.d/docker-php-ext-couchbase.ini
-     * @see https://github.com/couchbase/php-couchbase/blob/v2.6.2/api/couchbase.php#L47
-     */
-    protected function getMaxIdleTime(): int
-    {
-        return $this->config['settings']['max_idle_time'];
     }
 }
