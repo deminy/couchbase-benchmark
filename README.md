@@ -26,11 +26,33 @@ docker run --rm \
 You need to update Docker environment variable _COUCHBASE_HOST_, _COUCHBASE_USER_, _COUCHBASE_PASS_, and
 _COUCHBASE_BUCKET_ first before running above command.
 
-Assuming that we have a Couchbase certificate file _./couchbase.pem_ and we want to use it to run benchmarks:
+## Secure Connections with TLS
+
+To use secure connections with TLS, we need to set environment variable _COUCHBASE_PROTOCOL_ to _couchbases_:
+
+```bash
+docker run --rm \
+    -e COUCHBASE_PROTOCOL=couchbases \
+    -e COUCHBASE_HOST= \
+    -e COUCHBASE_USER= \
+    -e COUCHBASE_PASS= \
+    -e COUCHBASE_BUCKET= \
+    -e COUCHBASE_OPTIONS="wait_for_config=true" \
+    -ti deminy/couchbase-benchmark
+```
+
+The PHP SDK bundles Couchbase Capella’s standard root certificate by default. This means we don’t need any additional
+configuration to enable TLS - simply set environment variable _COUCHBASE_PROTOCOL_ to _couchbases_ allowing us to use
+_couchbases://_ in the connection string.
+
+Note that Couchbase Capella’s root certificate is not signed by a well known CA (Certificate Authority). However, as the
+certificate is bundled with the SDK, it is trusted by default. However, if we have a Couchbase certificate file
+_./couchbase.pem_ and want to use it to run benchmarks:
 
 ```bash
 docker run --rm \
     -v "$(pwd)/couchbase.pem:/couchbase.pem" \
+    -e COUCHBASE_PROTOCOL=couchbases \
     -e COUCHBASE_HOST= \
     -e COUCHBASE_USER= \
     -e COUCHBASE_PASS= \
@@ -41,6 +63,7 @@ docker run --rm \
 # or, if we don't want to validate the SSL certificate while benchmarking. This should be used for debugging purposes only.
 docker run --rm \
     -v "$(pwd)/couchbase.pem:/couchbase.pem" \
+    -e COUCHBASE_PROTOCOL=couchbases \
     -e COUCHBASE_HOST= \
     -e COUCHBASE_USER= \
     -e COUCHBASE_PASS= \
@@ -64,7 +87,7 @@ docker run --rm --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "ab -h"
 docker run --rm -v "$(pwd):/var/www" --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "composer install -n"
 ```
 
-If you want to test the benchmark script locally, you can start a Couchbase container first, then use it to run the
+If we want to test the benchmark script locally, we can start a Couchbase container first, then use it to run the
 benchmark script, like following:
 
 ```bash

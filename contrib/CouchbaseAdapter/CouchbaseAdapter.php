@@ -71,25 +71,26 @@ class CouchbaseAdapter
 
         $this->close();
 
-        $protocol = 'couchbase';
         if (!empty($this->config['options'])) {
             parse_str($this->config['options'], $options);
             if (!empty($options['truststorepath'])) {
                 if (!is_readable($options['truststorepath'])) {
                     throw new Exception("Unable to access the certificate file \"{$options['truststorepath']}\" for connecting to Couchbase.");
                 }
+                if ($this->config['protocol'] !== 'couchbases') {
+                    throw new Exception('Only protocol "couchbases" can be used when option "truststorepath" is include.');
+                }
                 if (!empty($options['ssl']) && ($options['ssl'] === 'no_verify')) {
                     $this->logger->warning('Certificate verification for SSL is disabled.');
                 }
-                $protocol = 'couchbases';
             }
         }
         if ($this->config['verbose_logging']) {
             ini_set('couchbase.log_level', 'WARN');
-            $connectionString = "{$protocol}://{$this->config['host']}?detailed_errcodes=1";
+            $connectionString = "{$this->config['protocol']}://{$this->config['host']}?detailed_errcodes=1";
         } else {
             ini_set('couchbase.log_level', 'FATAL');
-            $connectionString = "{$protocol}://{$this->config['host']}?detailed_errcodes=0";
+            $connectionString = "{$this->config['protocol']}://{$this->config['host']}?detailed_errcodes=0";
         }
         if (!empty($options)) {
             $connectionString .= '&' . http_build_query($options);
