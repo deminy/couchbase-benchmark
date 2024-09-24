@@ -26,6 +26,11 @@ class CouchbaseAdapter
      */
     protected array $config;
 
+    /**
+     * The connection string to Couchbase.
+     */
+    protected string $connstr;
+
     protected Bucket $bucket;
 
     protected float $lastUseTime = 0.0;
@@ -36,6 +41,8 @@ class CouchbaseAdapter
     {
         $this->config = $config;
         $this->logger = $logger;
+
+        $this->initConnectionString();
     }
 
     /**
@@ -71,33 +78,8 @@ class CouchbaseAdapter
 
         $this->close();
 
-        if (!empty($this->config['options'])) {
-            parse_str($this->config['options'], $options);
-            if (!empty($options['truststorepath'])) {
-                if (!is_readable($options['truststorepath'])) {
-                    throw new Exception("Unable to access the certificate file \"{$options['truststorepath']}\" for connecting to Couchbase.");
-                }
-                if ($this->config['protocol'] !== 'couchbases') {
-                    throw new Exception('Only protocol "couchbases" can be used when option "truststorepath" is include.');
-                }
-                if (!empty($options['ssl']) && ($options['ssl'] === 'no_verify')) {
-                    $this->logger->warning('Certificate verification for SSL is disabled.');
-                }
-            }
-        }
-        if ($this->config['verbose_logging']) {
-            ini_set('couchbase.log_level', 'WARN');
-            $connectionString = "{$this->config['protocol']}://{$this->config['host']}?detailed_errcodes=1";
-        } else {
-            ini_set('couchbase.log_level', 'FATAL');
-            $connectionString = "{$this->config['protocol']}://{$this->config['host']}?detailed_errcodes=0";
-        }
-        if (!empty($options)) {
-            $connectionString .= '&' . http_build_query($options);
-        }
-
         // TODO: handle connection failures.
-        $cluster = new Cluster($connectionString);
+        $cluster = new Cluster($this->connstr);
         $cluster->authenticateAs($this->config['user'], $this->config['pass']);
         $this->bucket = $cluster->openBucket($this->config['bucket']);
 
@@ -150,6 +132,39 @@ class CouchbaseAdapter
         $this->logger->log($level, $message, $context);
 
         return $this;
+    }
+
+    /**
+     * Initialize the connection string to Couchbase.
+     */
+    private function initConnectionString(): void
+    {
+        if (!empty($this->config['options'])) {
+            parse_str($this->config['options'], $options);
+            if (!empty($options['truststorepath'])) {
+                if (!is_readable($options['truststorepath'])) {
+                    throw new Exception("Unable to access the certificate file \"{$options['truststorepath']}\" for connecting to Couchbase.");
+                }
+                if ($this->config['protocol'] !== 'couchbases') {
+                    throw new Exception('Only protocol "couchbases" can be used when option "truststorepath" is include.');
+                }
+                if (!empty($options['ssl']) && ($options['ssl'] === 'no_verify')) {
+                    $this->logger->warning('Certificate verification for SSL is disabled.');
+                }
+            }
+        }
+        if ($this->config['verbose_logging']) {
+            ini_set('couchbase.log_level', 'WARN');
+            $this->connstr = "{$this->config['protocol']}://{$this->config['host']}?detailed_errcodes=1";
+        } else {
+            ini_set('couchbase.log_level', 'FATAL');
+            $this->connstr = "{$this->config['protocol']}://{$this->config['host']}?detailed_errcodes=0";
+        }
+        if (!empty($options)) {
+            $this->connstr .= '&' . http_build_query($options);
+        }
+
+        $this->log('debug', "Couchbase connection string: {$this->connstr}");
     }
 
     /**

@@ -81,10 +81,14 @@ docker run --rm -v "$(pwd):/var/www" -w /var/www -i jakzal/phpqa:php8.1 php-cs-f
 # To build the Docker image. We build AMR64 images only because there is no download link for ARM64.
 docker build --platform linux/amd64 --build-arg PHP_VERSION=8.1 -t deminy/couchbase-benchmark .
 
+# To check runtime environment.
+docker run --rm --platform=linux/amd64 --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "php --version"
+docker run --rm --platform=linux/amd64 --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "php --ri couchbase"
+
 # To read the manual of command "ab".
-docker run --rm --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "ab -h"
+docker run --rm --platform=linux/amd64 --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "ab -h"
 # To install PHP packages.
-docker run --rm -v "$(pwd):/var/www" --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "composer install -n"
+docker run --rm --platform=linux/amd64 -v "$(pwd):/var/www" --entrypoint "/bin/sh" -ti deminy/couchbase-benchmark -c "composer install -n"
 ```
 
 If we want to test the benchmark script locally, we can start a Couchbase container first, then use it to run the
@@ -96,6 +100,12 @@ docker run --rm -d --name couchbase -e CB_ADMIN=username -e CB_ADMIN_PASSWORD=pa
 
 # Run a benchmark with the Couchbase container.
 docker run --rm --platform=linux/amd64 \
+    -e COUCHBASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' couchbase) \
+    -ti deminy/couchbase-benchmark
+
+# Or, if we want to run a benchmark with the Couchbase container using secure connections with TLS.
+docker run --rm --platform=linux/amd64 \
+    -e COUCHBASE_PROTOCOL=couchbases \
     -e COUCHBASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' couchbase) \
     -ti deminy/couchbase-benchmark
 
