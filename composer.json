@@ -33,9 +33,9 @@
     "prefer-stable": true,
     "config" : {
         "platform": {
-            "php": "8.1.29",
+            "php": "8.1.30",
             "ext-couchbase": "3.2.2",
-            "ext-swoole": "5.1.4"
+            "ext-swoole": "5.1.5"
         },
         "apcu-autoloader": true,
         "discard-changes": true,
