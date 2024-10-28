@@ -12,15 +12,18 @@ ENV APP_ENV=$APP_ENV \
     APP_NAME=$APP_NAME \
     SCAN_CACHEABLE=(true)
 
-COPY ./ /var/www/
-COPY ./docker/rootfilesystem/ /
-
 RUN \
     set -ex && \
     docker-php-ext-configure pcntl --enable-pcntl && \
     docker-php-ext-install pcntl && \
     apt-get update && \
-    apt-get install apache2-utils jq -y --no-install-recommends && \
+    apt-get install apache2-utils jq -y --no-install-recommends
+
+COPY ./ /var/www/
+COPY ./docker/rootfilesystem/ /
+
+RUN \
+    set -ex && \
     composer install --no-dev -nq --no-progress && \
     php ./hyperf.php && \
     composer clearcache && \
