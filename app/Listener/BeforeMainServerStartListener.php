@@ -10,6 +10,7 @@ use Hyperf\Context\ApplicationContext;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\BeforeMainServerStart;
+use Swoole\Constant;
 
 class BeforeMainServerStartListener implements ListenerInterface
 {
@@ -43,7 +44,10 @@ class BeforeMainServerStartListener implements ListenerInterface
                 exit(-1);
             }
             $couchbaseAdapter->close();
-            $logger->info('The Couchbase server is reachable. Starting the HTTP server.');
+            $logger->info(sprintf(
+                'The Couchbase server is reachable. Starting the HTTP server with %d concurrent Couchbase connections.',
+                $event->serverConfig['settings'][Constant::OPTION_TASK_WORKER_NUM]
+            ));
             break;
         }
     }

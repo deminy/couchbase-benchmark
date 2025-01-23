@@ -10,12 +10,12 @@ This repository is to run benchmark with Couchbase servers.
 
 The benchmark tool works with Couchbase server 6.5 to 7.2. Other versions of Couchbase server are not tested.
 
-# How to Run a Benchmark
+# Running a Benchmark
 
 Run following command to benchmark with a specific Couchbase server:
 
 ```bash
-docker run --rm \
+docker run --rm --platform=linux/amd64 \
     -e COUCHBASE_HOST= \
     -e COUCHBASE_USER= \
     -e COUCHBASE_PASS= \
@@ -26,12 +26,27 @@ docker run --rm \
 You need to update Docker environment variable _COUCHBASE_HOST_, _COUCHBASE_USER_, _COUCHBASE_PASS_, and
 _COUCHBASE_BUCKET_ first before running above command.
 
+## Increasing Couchbase Connections
+
+To increase the number of Couchbase connections, set the _COUCHBASE_CONN_MULTIPLIER_ environment variable. For example,
+to triple the connections:
+
+```bash
+docker run --rm --platform=linux/amd64 \
+    -e COUCHBASE_HOST= \
+    -e COUCHBASE_USER= \
+    -e COUCHBASE_PASS= \
+    -e COUCHBASE_BUCKET= \
+    -e COUCHBASE_CONN_MULTIPLIER=3 \
+    -ti deminy/couchbase-benchmark
+```
+
 ## Secure Connections with TLS
 
 To use secure connections with TLS, we need to set environment variable _COUCHBASE_PROTOCOL_ to _couchbases_:
 
 ```bash
-docker run --rm \
+docker run --rm --platform=linux/amd64 \
     -e COUCHBASE_PROTOCOL=couchbases \
     -e COUCHBASE_HOST= \
     -e COUCHBASE_USER= \
@@ -50,7 +65,7 @@ certificate is bundled with the SDK, it is trusted by default. However, if we ha
 _./couchbase.pem_ and want to use it to run benchmarks:
 
 ```bash
-docker run --rm \
+docker run --rm --platform=linux/amd64 \
     -v "$(pwd)/couchbase.pem:/couchbase.pem" \
     -e COUCHBASE_PROTOCOL=couchbases \
     -e COUCHBASE_HOST= \
@@ -61,7 +76,7 @@ docker run --rm \
     -ti deminy/couchbase-benchmark
 
 # or, if we don't want to validate the SSL certificate while benchmarking. This should be used for debugging purposes only.
-docker run --rm \
+docker run --rm --platform=linux/amd64 \
     -v "$(pwd)/couchbase.pem:/couchbase.pem" \
     -e COUCHBASE_PROTOCOL=couchbases \
     -e COUCHBASE_HOST= \
