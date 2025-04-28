@@ -2,10 +2,10 @@ This repository is to run benchmark with Couchbase servers.
 
 # How Is the Benchmark Performed
 
-* The benchmarks are done using the Apache ab tool.
-* The web server creates a few persistent Couchbase connections in advance. The # of persistent Couchbase connections is the same as the # of CPU core.
-* The 1st benchmark makes 500 HTTP requests in total, with 100 concurrent threads.
-* The 2nd benchmark makes 500 HTTP requests in total. The # of concurrent threads is the same as the # of persistent Couchbase connections.
+* Benchmarks are conducted using the Apache _ab_ tool.
+* The web server pre-establishes several persistent Couchbase connections. The number of these connections can be adjusted using the _COUCHBASE_CONN_MULTIPLIER_ environment variable.
+* By default, the first benchmark makes a total of 500 HTTP requests with 100 concurrent threads.
+* The second benchmark, also by default, makes 500 HTTP requests, with the number of concurrent threads equal to the number of persistent Couchbase connections.
 * Each HTTP request performs 24 Couchbase operations, including _get()_, _insert()_, _upsert()_, _replace()_, _counter()_, and _remove()_.
 
 The benchmark tool works with Couchbase server 6.5 to 7.2. Other versions of Couchbase server are not tested.
@@ -16,20 +16,20 @@ Run following command to benchmark with a specific Couchbase server:
 
 ```bash
 docker run --rm --platform=linux/amd64 \
-    -e COUCHBASE_HOST= \
-    -e COUCHBASE_USER= \
-    -e COUCHBASE_PASS= \
-    -e COUCHBASE_BUCKET= \
+    -e COUCHBASE_HOST=<your_host> \
+    -e COUCHBASE_USER=<your_username> \
+    -e COUCHBASE_PASS=<your_password> \
+    -e COUCHBASE_BUCKET=<your_bucket> \
     -ti deminy/couchbase-benchmark
 ```
 
-You need to update Docker environment variable _COUCHBASE_HOST_, _COUCHBASE_USER_, _COUCHBASE_PASS_, and
-_COUCHBASE_BUCKET_ first before running above command.
+You need to replace `<your_host>`, `<your_username>`, `<your_password>`, and `<your_bucket>` with your specific Couchbase server details first before running above command.
 
 ## Increasing Couchbase Connections
 
-To increase the number of Couchbase connections, set the _COUCHBASE_CONN_MULTIPLIER_ environment variable. For example,
-to triple the connections:
+To adjust the number of Couchbase connections, use the _COUCHBASE_CONN_MULTIPLIER_ environment variable. This variable multiplies the number of CPU cores to determine the number of Couchbase connections. By default, the multiplier is set to 1, which creates approximately the same number of persistent Couchbase connections as there are CPU cores.
+
+To roughly triple the number of connections, use the following command:
 
 ```bash
 docker run --rm --platform=linux/amd64 \
@@ -127,3 +127,22 @@ docker run --rm --platform=linux/amd64 \
 # Stop the Couchbase container.
 docker stop couchbase
 ```
+
+Environment variable _LOG_LEVEL_ can be set to one of the [PSR-3 log levels]. By default, it is set to `error`. You can
+set it to `warning` or `debug` for more detailed logs. For examples,
+
+```bash
+# To run a benchmark with the Couchbase container using the debug log level.
+docker run --rm --platform=linux/amd64 \
+    -e LOG_LEVEL=debug \
+    -e COUCHBASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' couchbase) \
+    -ti deminy/couchbase-benchmark
+
+# To run a benchmark with the Couchbase container using the warning log level.
+docker run --rm --platform=linux/amd64 \
+    -e LOG_LEVEL=warning \
+    -e COUCHBASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' couchbase) \
+    -ti deminy/couchbase-benchmark
+```
+
+[PSR-3 log levels]: https://github.com/php-fig/log/blob/3.0.2/src/LogLevel.php
