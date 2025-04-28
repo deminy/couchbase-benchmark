@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\LogHelper;
 use Hyperf\Server\Event;
 use Hyperf\Server\Server;
 use Swoole\Constant;
@@ -30,6 +31,7 @@ return [
         Constant::OPTION_MAX_REQUEST         => 100000,
         Constant::OPTION_SOCKET_BUFFER_SIZE  => 2 * 1024 * 1024,
         Constant::OPTION_BUFFER_OUTPUT_SIZE  => 2 * 1024 * 1024,
+        Constant::OPTION_LOG_LEVEL           => LogHelper::getSwooleLogLevel(),
 
         Constant::OPTION_TASK_WORKER_NUM       => max(1, swoole_cpu_num() * intval($_SERVER['COUCHBASE_CONN_MULTIPLIER'] ?? 1) - 1),
         Constant::OPTION_TASK_ENABLE_COROUTINE => false,
