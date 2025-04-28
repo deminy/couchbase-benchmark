@@ -149,6 +149,8 @@ class CouchbaseAdapter
      */
     private function initConnectionString(): void
     {
+        ini_set('couchbase.log_level', $this->config['log_level']);
+
         if (!empty($this->config['options'])) {
             parse_str($this->config['options'], $options);
             if (!empty($options['truststorepath'])) {
@@ -163,17 +165,11 @@ class CouchbaseAdapter
                 }
             }
         }
-        if ($this->config['verbose_logging']) {
-            ini_set('couchbase.log_level', 'WARN');
-            $this->connstr = "{$this->config['protocol']}://{$this->config['host']}?detailed_errcodes=1";
-        } else {
-            ini_set('couchbase.log_level', 'FATAL');
-            $this->connstr = "{$this->config['protocol']}://{$this->config['host']}?detailed_errcodes=0";
-        }
+
+        $this->connstr = "{$this->config['protocol']}://{$this->config['host']}?detailed_errcodes=1";
         if (!empty($options)) {
             $this->connstr .= '&' . http_build_query($options);
         }
-
         $this->log('debug', "Couchbase connection string: {$this->connstr}");
     }
 }

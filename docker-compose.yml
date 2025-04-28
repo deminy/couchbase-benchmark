@@ -3,7 +3,10 @@ services:
     image: deminy/couchbase-benchmark
     platform: linux/amd64
     environment:
-      VERBOSE_LOGGING: "true"
+      # Value of environment variable LOG_LEVEL is one of the properties of the class Psr\Log\LogLevel.
+      # Default value is "warning" if not set.
+      # @see https://github.com/php-fig/log/blob/3.0.2/src/LogLevel.php
+      LOG_LEVEL: "warning"
     links:
       - couchbase
     ports:

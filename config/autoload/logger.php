@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Psr\Log\LogLevel;
+use App\LogHelper;
 
 return [
     'default' => [
@@ -10,7 +10,7 @@ return [
             'class'       => Monolog\Handler\StreamHandler::class,
             'constructor' => [
                 'stream' => 'php://stdout',
-                'level'  => LogLevel::DEBUG,
+                'level'  => LogHelper::getLogLevel(),
             ],
         ],
         'formatter' => [

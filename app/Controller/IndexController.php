@@ -8,13 +8,11 @@ use Couchbase\Exception;
 use Crowdstar\OOM\Drivers\Couchbase\StandardDriver;
 use CrowdStar\Reflection\Reflection;
 use Hyperf\Context\ApplicationContext;
-use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Server\ServerFactory;
-use Monolog\Logger;
 use Swoole\Http\Server as SwooleHttpServer;
 
 class IndexController
@@ -59,11 +57,6 @@ class IndexController
      */
     public function test(): ResponseInterface
     {
-        if (ApplicationContext::getContainer()->get(ConfigInterface::class)->get('couchbase')['default']['verbose_logging']) {
-            $logger = ApplicationContext::getContainer()->get(LoggerFactory::class)->get('test');
-        } else {
-            $logger = new Logger('test');
-        }
         $postfix = uniqid('', true) . '-' . rand() . '-' . bin2hex(random_bytes(10)); // Generate a unique postfix (for benchmark purpose).
 
         // Couchbase method replace() is tested using $key2 and $key3.
@@ -72,6 +65,7 @@ class IndexController
         $key3 = "test-key3{$postfix}"; // Used to test method counter().
 
         $driver = new StandardDriver();
+        $logger = ApplicationContext::getContainer()->get(LoggerFactory::class)->get('test');
 
         // To clean up existing records.
         // $logger->debug("0. Remove all three keys.");

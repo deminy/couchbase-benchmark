@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\LogHelper;
+
 use function Hyperf\Support\env;
 
 return [
@@ -17,6 +19,6 @@ return [
             # @see https://github.com/couchbase/php-couchbase/blob/v2.6.2/api/couchbase.php#L47
             'max_idle_time' => (int) env('COUCHBASE_MAX_IDLE_TIME', 40),
         ],
-        'verbose_logging' => env('VERBOSE_LOGGING', false),
+        'log_level' => LogHelper::getCouchbaseLogLevel(),
     ],
 ];
